@@ -1,7 +1,7 @@
 {
   "name": "beer-and-chip",
   "version": "0.0.1",
-  "main": "server.js",
+  "main": "server/server.js",
   "engines": {
     "npm": "3.3.12",
     "node": "5.4.1"
