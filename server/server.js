@@ -47,8 +47,8 @@ passport.deserializeUser(function(obj, cb) {
 
 /***** FACEBOOK AUTH *****/
 var User = db.User;
-var FACEBOOK_APP_ID = '553060631520944';
-var FACEBOOK_APP_SECRET = '6d6d7fe25752c6bb43490d4d915f42af';
+var FACEBOOK_APP_ID = '1132779843408098';
+var FACEBOOK_APP_SECRET = '4b28a2011edb4bc065fe97b4be65f719';
 
 passport.use(new FacebookStrategy({
     clientID: FACEBOOK_APP_ID,
