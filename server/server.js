@@ -9,6 +9,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
 var jwt = require('jwt-simple');
 var cookieParser = require('cookie-parser');
+var passwords = require('./passwords.js');
 
 //router
 var router = require('./config/routes.js');
@@ -47,8 +48,8 @@ passport.deserializeUser(function(obj, cb) {
 
 /***** FACEBOOK AUTH *****/
 var User = db.User;
-var FACEBOOK_APP_ID = '1132779843408098';
-var FACEBOOK_APP_SECRET = '4b28a2011edb4bc065fe97b4be65f719';
+var FACEBOOK_APP_ID = passwords.appId;
+var FACEBOOK_APP_SECRET = passwords.appSecret;
 
 passport.use(new FacebookStrategy({
     clientID: FACEBOOK_APP_ID,
