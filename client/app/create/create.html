@@ -43,7 +43,7 @@
 
         <div ng-repeat="guest in guests">
           <label>
-            <span style="display:inline-block; width:45%;"><input type="text" ng-model="guest.name" placeholder="Enter Name..."></span>
+            <span style="display:inline-block; width:45%;"><input type="text" name='myName' ng-model="guest.name" placeholder="Enter Name... REQUIRED" required></span>
             <span style="display:inline-block; width: 45%;"><input type="email" name='myInput' ng-model="guest.email" placeholder="Enter Email... REQUIRED" required></span>
             <input type="button" value="X" ng-click="removeGuest($index)" class="button special small">
           </label>
@@ -68,7 +68,7 @@
         <input type="button" ng-click="reset()" value="Reset" />
 
 
-        <input type="submit" ng-click="update(event, hold)" value="Submit" ng-disabled='!createForm.myInput.$valid'/>
+        <input type="submit" ng-click="update(event, hold)" value="Submit" ng-disabled='!createForm.myInput.$valid || !createForm.myName.$valid'/>
 
 
       </form>
