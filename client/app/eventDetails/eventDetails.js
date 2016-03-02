@@ -101,26 +101,35 @@ angular.module('eventDetails', ['eventList'])
     // nessesary for drag-and-drop visualization
     // return false to reject visual update
     return item; 
-  }
+  };
 
-  // parse guestInfo for guest name
+  // parse guestInfo for guest id
   $scope.getId = function(guestInfo) {
     var name = guestInfo.match(/([^\s])+/g);
     return name[1];
-  }
+  };
 
-  // parse guestInfo for guest Id 
+  // parse guestInfo for guest name
   $scope.getName = function(guestInfo) {
-    var name = guestInfo.match(/([^\s])+/);
-    return name[0];
-  }
+    // var name = guestInfo.match(/([^\s])+/);
+    // return name[0];
+    var name;
+    name = guestInfo;
+    name.trim();
+    name = name.split(" ");
+    var newName = "";
+    for(var i = 0; i < name.length - 1; i++) {
+      newName += name[i] + ' ';
+    }
+    return newName;
+  };
 
 /** EMAIL **/
   // sends unique eventDetails url to all guests
   $scope.email = function() {
-    var eventID = $cookies.get("eventID")
+    var eventID = $cookies.get("eventID");
     requestFactory.sendEmails(eventID);
-  }
+  };
 
 /** INITIALIZE ON PAGE LOAD **/
   initializeDetails();
