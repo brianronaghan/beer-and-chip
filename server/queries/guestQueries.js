@@ -26,19 +26,22 @@ module.exports = {
   // add multiple guests to one event (changed to take in the whole event so we can access the creator ID)
   addAll: function(event, guests, callback) {
     // Add dummy guest to hold all unassigned items
-    guests.push({name: "Unassigned", EventId: event.id});
+    guests.push({name: "STUFF TO GET!", EventId: event.id});
     // automatically create a guest entry for the event creator
     var creatorName = "";
+    // find the user that created the event
     User.findOne({
       where: {id:event.UserId}
     })
     .then(function (user){
+      //set creatorname to that user's displayname
       creatorName = user.dataValues.displayName;
       console.log("crnam" ,creatorName);
       guests.push({name: creatorName, EventId: event.id});
       for (var i=0; i < guests.length; i++) {
       	guests[i].EventId = event.id;
       }
+      // then bulk create
       Guest
   	    .bulkCreate(guests)
   	    .then(function(newGuests) {
