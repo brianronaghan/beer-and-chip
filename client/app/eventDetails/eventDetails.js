@@ -91,7 +91,7 @@ angular.module('eventDetails', ['eventList'])
           // and assigns guests an items array or an empty array
           guests[guestName + ' ' + guestId] = temp[guestId] ? temp[guestId] : [];
         }
-      })
+      });
   }
 
   // Fires when an item is moved to a column
@@ -100,27 +100,39 @@ angular.module('eventDetails', ['eventList'])
     requestFactory.updateItem(item, guestId);
     // nessesary for drag-and-drop visualization
     // return false to reject visual update
-    return item; 
-  }
+    return item;
+  };
+
+  // parse guestInfo for guest id
+  $scope.getId = function(guestInfo) {
+    // var name = guestInfo.match(/([^\s])+/g);
+    // return name[1];
+    var name = guestInfo;
+    name = name.split(' ');
+    return name[name.length - 1];
+  };
 
   // parse guestInfo for guest name
-  $scope.getId = function(guestInfo) {
-    var name = guestInfo.match(/([^\s])+/g);
-    return name[1];
-  }
-
-  // parse guestInfo for guest Id 
   $scope.getName = function(guestInfo) {
-    var name = guestInfo.match(/([^\s])+/);
-    return name[0];
-  }
+    // var name = guestInfo.match(/([^\s])+/);
+    // return name[0];
+    var name;
+    name = guestInfo;
+    name.trim();
+    name = name.split(" ");
+    var newName = "";
+    for(var i = 0; i < name.length - 1; i++) {
+      newName += name[i] + ' ';
+    }
+    return newName;
+  };
 
 /** EMAIL **/
   // sends unique eventDetails url to all guests
   $scope.email = function() {
-    var eventID = $cookies.get("eventID")
+    var eventID = $cookies.get("eventID");
     requestFactory.sendEmails(eventID);
-  }
+  };
 
 /** INITIALIZE ON PAGE LOAD **/
   initializeDetails();
