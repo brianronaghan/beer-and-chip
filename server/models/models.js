@@ -7,6 +7,10 @@ var User = db.define('User', {
     type: Sequelize.STRING,
     unique: true
   },
+  googleID: {
+    type: Sequelize.STRING,
+    unique: true
+  },
   displayName: Sequelize.STRING,
   email: Sequelize.STRING
 });

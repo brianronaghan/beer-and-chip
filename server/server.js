@@ -10,6 +10,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var jwt = require('jwt-simple');
 var cookieParser = require('cookie-parser');
 var passwords = require('./passwords.js');
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 //router
 var router = require('./config/routes.js');
@@ -59,7 +60,6 @@ passport.use(new FacebookStrategy({
   },
   function(accessToken, refreshToken, profile, cb) {
     process.nextTick(function() {
-
       User.findOrCreate({ where:{
         facebookID: profile.id,
         displayName: profile.displayName,
@@ -86,6 +86,52 @@ app.get('/auth/facebook/callback',
 
     res.redirect('/');
   });
+
+  var GOOGLE_CLIENT_ID = passwords.googleId;
+  var GOOGLE_CLIENT_SECRET = passwords.googleSecret;
+
+  // we will have to redo callbackURL once we deploy
+  passport.use(new GoogleStrategy({
+      clientID: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
+      callbackURL: "http://localhost:3000/auth/google/callback"
+    },
+    function(accessToken, refreshToken, profile, cb) {
+      // console.log("google prof ",profile.emails[0].value);
+      process.nextTick(function() {
+        User.findOrCreate({ where:{
+          googleID: profile.id,
+          displayName: profile.displayName,
+          email: profile.emails[0].value
+        }})
+          .spread(function (user, created) {
+            console.log("use crea ", user, created);
+            return cb(null, user);
+        });
+      });
+      //
+      // User.findOrCreate({ googleId: profile.id }, function (err, user) {
+      //   return cb(err, user);
+      // });
+    }
+  ));
+
+  app.get('/auth/google',
+    passport.authenticate('google', { scope: ['email'] }));
+
+  app.get('/auth/google/callback',
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    function(req, res) {
+      res.cookie('userID', req.user.id);
+      res.cookie('googleID', req.user.googleID);
+      res.cookie('displayName', req.user.displayName);
+      res.cookie('email', req.user.email);
+      res.redirect('/');
+    });
+
+
+
+
 
 //if we are being rung directly, run the server
 if(!module.parent) {
