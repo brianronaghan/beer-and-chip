@@ -23,7 +23,8 @@ angular.module('eventDetails', ['eventList'])
       url: '/api/items',
       data: newItem
     }).then(function(){
-        $scope.resetField('newItem'); // reset text field
+        $scope.resetField('itemName'); // reset text field
+        initializeDetails();
     });
 
   };
@@ -42,6 +43,7 @@ angular.module('eventDetails', ['eventList'])
     }).then(function(){
         $scope.resetField('guestName'); 
         $scope.resetField('guestEmail'); 
+        initializeDetails();
     });
 
   };
