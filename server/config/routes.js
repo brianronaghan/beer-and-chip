@@ -4,7 +4,7 @@ var eventsController = require('../controllers/eventsController');
 var guestsController = require('../controllers/guestsController');
 // var basketsController = require('../controllers/basketsController');
 var itemsController = require('../controllers/itemsController');
-var nodemailerController = require('../controllers/nodemailerController'); 
+var nodemailerController = require('../controllers/nodemailerController');
 
 
 // router.get('/auth/facebook', usersController.getAll);
