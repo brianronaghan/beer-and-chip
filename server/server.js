@@ -55,7 +55,7 @@ var FACEBOOK_APP_SECRET = passwords.appSecret;
 passport.use(new FacebookStrategy({
     clientID: FACEBOOK_APP_ID,
     clientSecret: FACEBOOK_APP_SECRET,
-    callbackURL: "http://localhost:3000/auth/facebook/callback",
+    callbackURL: "/auth/facebook/callback",
     profileFields: ['id', 'displayName','email', 'cover']
   },
   function(accessToken, refreshToken, profile, cb) {
@@ -94,7 +94,7 @@ app.get('/auth/facebook/callback',
   passport.use(new GoogleStrategy({
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/google/callback"
+      callbackURL: "/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, cb) {
       // console.log("google prof ",profile.emails[0].value);
