@@ -48,34 +48,32 @@
     <div>
       <h5>Forget anything?</h5>
       <!-- add item field -->
-      <span style="display:inline-block">
-        <input type="text" ng-model="itemName" name="addItem" id="addItem" value="" placeholder="Enter Item" />
-      </span> 
-      <!-- add item button -->
-      <span class="button alt disabled" ng-click="addItemFunc(itemName)">
-        Add item
-      </span>
+      <form novalidate name='eventItemDetails'>
+        <span style="display:inline-block">
+          <input type="text" ng-model="itemName" name="nameOfItem" id="addItem" placeholder="Enter Item" required>
+        </span> 
 
-      <!-- add guest field  -->
-      <span style="display:inline-block">
-        <input type="text"  ng-model="guestName" name="addGuest" id="addGuest" value="" placeholder="Enter Guest" />
-      </span>
-      <span style="display:inline-block">
-        <input type="text"  ng-model="guestEmail" name="addEmail" id="addEmail" value="" placeholder="Enter Email" />
-      </span>
-      
+        <!-- add item button -->
+        <input value='Add item' type="submit" class="nodemailer button" ng-click="addItemFunc(itemName)" ng-disabled='!eventItemDetails.nameOfItem.$valid'/>
 
-      <!--add guest button  -->
-      <span class="button alt disabled" ng-click="addGuestFunc(guestName, guestEmail)">
-        Add guest
-      </span>
-    </div>
+        <!-- add guest field  -->
+        <span style="display:inline-block">
+          <input type="text" ng-model="guestName" name="addGuest" id="addGuest" value="" placeholder="Enter Guest" required/>
+        </span>
+        <span style="display:inline-block">
+          <input type="email" ng-model="guestEmail" name="addEmail" id="addEmail" value="" placeholder="Enter Email" required/>
+        </span>
 
-    <br><br>
+        <!--add guest button  -->
+        <input type="button" class="nodemailer button" value='Add guest' ng-click="addGuestFunc(guestName, guestEmail)" ng-disabled='!eventItemDetails.addGuest.$valid || !eventItemDetails.addEmail.$valid'>
+      </div>
 
-    <!-- Send email button -->  
-    <button type="button" class="nodemailer button" ng-click="email()">
-      Send Event Details to Guests
-    </button>
+      <br><br>
+
+      <!-- Send email button -->  
+      <button type="button" class="nodemailer button" ng-click="email()">
+        Send Event Details to Guests
+      </button>
+    </form>
   </div>
 </section> 
