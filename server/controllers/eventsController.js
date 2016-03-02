@@ -10,7 +10,7 @@ module.exports = {
       var userID = req.params.userID;
       EventQuery.getAll(userID, function(events) {
         res.json(events);
-      })
+      });
     },
     post: function (req, res) {
       var data = {
