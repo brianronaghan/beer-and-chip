@@ -49,14 +49,14 @@ Item.belongsTo(Guest);
 
 //create tables in MySql if they don't already exist
 User.sync()
-  .then(function() {
-    Event.sync()
-      .then(function() {
-        Guest.sync()
-          .then(function() {
-            Item.sync();
-          });
-      });
+  .then(function () {
+    return Event.sync();
+  })
+  .then(function () {
+    return Guest.sync();
+  })
+  .then(function () {
+    return Item.sync();
   });
 
 
