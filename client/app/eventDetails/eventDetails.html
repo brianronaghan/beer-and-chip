@@ -42,7 +42,8 @@
               </div>
           </div>
           <div>
-            <ul dnd-list="trash"
+            <!-- Empty array prevents error from dnd-moved -->
+            <ul dnd-list="[]"
                 dnd-drop="deleteItem(item.id)">
                 <li>Remove Item</li>
             </ul>
