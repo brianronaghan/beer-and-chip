@@ -38,8 +38,8 @@ module.exports = {
       .destroy({
         where: {id: itemID}
       })
-      .then(function() {
-        callback();
+      .then(function(event) {
+        callback(event);
       })
   }
 };
