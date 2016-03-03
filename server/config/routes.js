@@ -20,7 +20,7 @@ router.get('/email/:eventID', nodemailerController.get);
 router.get('/guests', guestsController.get);
 router.post('/guests', guestsController.post);
 router.put('/guests', guestsController.put);
-router.delete('/guests', guestsController.delete);
+router.delete('/guests/:guestID/:eventID', guestsController.delete);
 
 router.get('/items/:eventID', itemsController.get);
 router.post('/items', itemsController.post);
