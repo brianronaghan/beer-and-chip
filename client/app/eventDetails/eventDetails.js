@@ -58,7 +58,6 @@ angular.module('eventDetails', ['eventList'])
 
   };
   // function that determines whether a user is the still needed or the creatorName
-  // YO! creatorName still not working. Not a must have, but nice
   $scope.isSafe = function (user) {
     if ($scope.details.creatorName) {
       var userName = $scope.getName(user);
