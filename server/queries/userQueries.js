@@ -13,5 +13,15 @@ module.exports = {
       .then(function(user) {
       	callback(user);
       });
+  },
+
+  // gets a user by id, return the entire user info
+  getByUserId: function(userId, callback) {
+    User.findOne({
+      where: {id: userId}
+    })
+    .then(function(user) {
+      callback(user);
+    });
   } 
 }
