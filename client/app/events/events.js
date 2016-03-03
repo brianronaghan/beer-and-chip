@@ -48,7 +48,6 @@ angular.module('eventList', [])
 	}
 
   var deleteEvents = function(event) {
-    console.log('i RAN', event.id)
     return $http({
       method: 'DELETE',
       url: '/api/events/',
