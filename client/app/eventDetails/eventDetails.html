@@ -36,8 +36,10 @@
                       dnd-selected="models.selected = item"
                       ng-class="{'selected': models.selected === item}"
                       >
-                      {{item.name}}
-                      {{models.selected===item}}
+                      <div>{{item.name}}</div><div ng-click="isSelected(item)">${{item.price}}</div>
+                      <input type='text' ng-model="newPrice" ng-show="item.show" placeholder='change price' />
+                      <input ng-show="item.show" value='Change Price' type="submit" class="nodemailer button" ng-click="changePriceOfItem(item, newPrice)" />
+        </div>
                   </li>
                 </ul>
               </div>
