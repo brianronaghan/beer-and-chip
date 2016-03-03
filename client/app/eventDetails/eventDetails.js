@@ -66,7 +66,7 @@ angular.module('eventDetails', ['eventList'])
       var stringUser = userName.toString();
       if (userId == $scope.details.guests[0].id) {
         return false;
-      } else if (stringUser == $scope.details.creatorName) {
+      } else if (stringUser.trim() == $scope.details.creatorName.trim()) {
         return false;
       } else {
         return true;
