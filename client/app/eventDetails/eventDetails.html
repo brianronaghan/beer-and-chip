@@ -1,7 +1,7 @@
 <section id="banner" >
 	<h2>Beer or Chip</h2>
 	<p>everyone makes the party</p>
-</section> 
+</section>
 
 <section id="main" class="wrapper">
   <div class="container">
@@ -10,13 +10,13 @@
       <h2>Event Details</h2>
     </header>
   	<div>
-  		<div>		
-  		  <h4>What: {{details.event.name}}</h4> 
+  		<div>
+  		  <h4>What: {{details.event.name}}</h4>
   		  <h5>Where: {{details.event.location}}</h5>
-  		  <h5>When: {{details.event.date| date: 'fullDate'}}</h5> 
+  		  <h5>When: {{details.event.date| date: 'fullDate'}}</h5>
         <p>Created By: {{details.creatorName}}</p>
   		</div>
-    	
+
       <!-- Drag-and-Drop Table -->
       <div class="table-wrapper">
     		<div class="itemsTable row">
@@ -26,6 +26,7 @@
                   <h3 class="panel-title">{{getName(guestInfo)}}</h3>
               </div>
               <div class="panel-body" >
+                <h4 ng-click='deleteGuest(getId(guestInfo))'> uninvite </h4></a>
                 <ul dnd-list="list"
                     dnd-drop="reassignItem(item, guestInfo)">
                   <li ng-repeat="item in list"
@@ -59,7 +60,7 @@
       <form novalidate name='eventItemDetails'>
         <span style="display:inline-block">
           <input type="text" ng-model="itemName" name="nameOfItem" id="addItem" placeholder="Enter Item" required>
-        </span> 
+        </span>
 
         <!-- add item button -->
         <input value='Add item' type="submit" class="nodemailer button" ng-click="addItemFunc(itemName)" ng-disabled='!eventItemDetails.nameOfItem.$valid'/>
@@ -78,10 +79,10 @@
 
       <br><br>
 
-      <!-- Send email button -->  
+      <!-- Send email button -->
       <button type="button" class="nodemailer button" ng-click="email()">
         Send Event Details to Guests
       </button>
     </form>
   </div>
-</section> 
+</section>
