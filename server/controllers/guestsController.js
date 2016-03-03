@@ -1,5 +1,6 @@
 var GuestQuery = require('../queries/guestQueries');
 var ItemQuery = require('../queries/itemQueries');
+var EventQuery = require('../queries/eventQueries');
 
 module.exports = {
   get: function(req, res) {
@@ -11,8 +12,11 @@ module.exports = {
 
   post: function(req, res) {
     var guest = req.body;
+    console.log(req.body);
     GuestQuery.addOne(guest, function(newGuest) {
-      res.json(newGuest);
+      EventQuery.incOrDecGuestNum(req.body.EventId, 1, function() {
+        res.json(newGuest);
+      });
     });
   },
 
@@ -35,13 +39,12 @@ module.exports = {
         // we reassign any items a deleted guest had claimed to the STILL NEEDED 'guest'
         ItemQuery.reassignUsersItems(guestID, eventID, unAssId, function(){
           GuestQuery.deleteOne(req.params.guestID, function(){
-            res.send();
+            EventQuery.incOrDecGuestNum(eventID, -1, function() {
+              res.send();
+            });
           });
         });
       }
     });
-
-
-
   }
 };
