@@ -20,7 +20,7 @@ module.exports = {
   	  })
   	  .then(function(events) {
   	    callback(events);
-  	  }); 
+  	  });
   },
 
 // get event by ID and pass to a callback
@@ -30,7 +30,7 @@ module.exports = {
   	  	where: {ID: ID}
   	  })
   	  .then(function(event) {
-  	  	callback(event)
+  	  	callback(event);
   	  });
   },
   deleteOne: function(itemID, callback) {
@@ -41,16 +41,38 @@ module.exports = {
       .then(function(event) {
         callback(event);
       })
+  },
+  updateNumberOfGuests: function (eventID,guestNum, callback) {
+
+    Event
+      .update({numGuests:guestNum}, {
+        where: {id: eventID}
+      })
+      .then(function (){
+        callback();
+      });
+  },
+  updateTotalCost: function (eventID, priceToAdd, callback) {
+    Event.findOne({
+      where: {id: eventID}
+    })
+    .then (function (event) {
+      var newCost;
+      console.log(event.totalCost);
+      console.log(priceToAdd);
+      if (event.totalCost !== null) {
+        newCost = event.totalCost + priceToAdd;
+      } else {
+        newCost = priceToAdd;
+      }
+      Event
+        .update({totalCost:newCost}, {
+          where: {id: eventID}
+        })
+        .then(function (){
+          console.log(event.totalCost);
+          callback();
+        });
+    });
   }
 };
-
-
-
-
-
-
-
-
-
-
-

@@ -105,7 +105,6 @@ app.get('/auth/facebook/callback',
           email: profile.emails[0].value
         }})
           .spread(function (user, created) {
-            console.log("use crea ", user, created);
             return cb(null, user);
         });
       });
