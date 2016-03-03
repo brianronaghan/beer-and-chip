@@ -5,7 +5,7 @@ var guestsController = require('../controllers/guestsController');
 // var basketsController = require('../controllers/basketsController');
 var itemsController = require('../controllers/itemsController');
 var nodemailerController = require('../controllers/nodemailerController');
-
+var usersController = require('../controllers/usersController');
 
 // router.get('/auth/facebook', usersController.getAll);
 // router.get('/auth/facebook/callback', usersController.addOne);
@@ -28,5 +28,7 @@ router.delete('/items/:itemID', itemsController.delete);
 
 // router.get('/baskets', basketsController.get);
 // router.put('/baskets/swap', basketsController.put);
+
+router.get('/users/:userId', usersController.get);
 
 module.exports = router;

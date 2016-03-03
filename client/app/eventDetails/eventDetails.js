@@ -83,7 +83,7 @@ angular.module('eventDetails', ['eventList'])
           } else {
             temp[GuestId] = [item];
           }
-        }        
+        }
 
         // Populate the ng-model guests
         for (var i = 0; i < details.guests.length; i++){
@@ -93,8 +93,17 @@ angular.module('eventDetails', ['eventList'])
           // and assigns guests an items array or an empty array
           guests[guestName + ' ' + guestId] = temp[guestId] ? temp[guestId] : [];
         }
+        // added this so next then has details
+        return details;
+      })
+      // this function is to get the creator name from the database
+      .then(function(details) {
+        return requestFactory.getUserDetails(details.event.UserId);
+      })
+      .then(function(creatorName) {
+        $scope.details.creatorName = creatorName.data;
       });
-  }
+  };
 
   // Fires when an item is moved to a column
   $scope.reassignItem = function(item, guestInfo) {
@@ -169,9 +178,22 @@ angular.module('eventDetails', ['eventList'])
     })
   };
 
+  var getUserDetails = function(userId) {
+    return $http( {
+      method: 'GET',
+      url: '/api/users/' + userId,
+    })
+    .then(function(userName) {
+      return userName;
+    });  
+
+
+  };
+
   return {
     getEvents: getEvents,
     sendEmails: sendEmails,
-    updateItem: updateItem
+    updateItem: updateItem,
+    getUserDetails: getUserDetails
   }
 })
