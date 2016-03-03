@@ -63,9 +63,32 @@ module.exports = {
 			})
 			.then(function() {
 				callback();
-			})
+			});
 	},
+  // reassign items of one user to the STILL TO BE added
+  reassignUsersItems: function(userId, eventId, unAssId, callback) {
+    Item
+      .findAll({
+        where: {EventId: eventId,
+                GuestId: userId
+        }
+      })
+      .then(function (items) {
+        return items.map(function (itemObj){
+          return itemObj.id;
+        });
+      })
+      .then(function (listOfItemIds){
+        Item
+    			.update({GuestId:unAssId}, {
+    				where: {id: {
+              $in:listOfItemIds
+            }}
+    			});
+        callback();
+      });
 
+	},
 	// delete one item
 	deleteOne: function(itemID, callback) {
 		Item
