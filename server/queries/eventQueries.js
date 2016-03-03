@@ -52,6 +52,23 @@ module.exports = {
         callback();
       });
   },
+  // will either increment or decrement # of guests, based on whether dir is 1 or -1
+  incOrDecGuestNum: function (eventID, dir, callback) {
+    Event.findOne({
+      where: {id: eventID}
+    })
+    .then (function (event) {
+      var newNum = event.numGuests + dir;
+    Event
+      .update({numGuests:newNum}, {
+        where: {id: eventID}
+      })
+      .then(function (){
+        callback();
+      });
+    });
+  },
+
   updateTotalCost: function (eventID, priceToAdd, callback) {
     Event.findOne({
       where: {id: eventID}
