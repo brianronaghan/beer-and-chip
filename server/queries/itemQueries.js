@@ -40,10 +40,10 @@ module.exports = {
 		for (var i=0, j = 0; i < items.length; i++) {
 			items[i].EventId = eventID;
 			items[i].GuestId = stillNeededId;
-      console.log(items[i].price);
+      // console.log(items[i].price);
       costToAdd += Number(items[i].price);
 
-      console.log("cost from add all ",costToAdd);
+      // console.log("cost from add all ",costToAdd);
 		}
     EventQueries.updateTotalCost(eventID, costToAdd, function () {
       Item
