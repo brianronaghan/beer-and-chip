@@ -13,10 +13,11 @@ angular.module('eventDetails', ['eventList'])
   };
 
   // sends a POST request to insert a new item
-  $scope.addItemFunc = function(itemName){
+  $scope.addItemFunc = function(itemName, itemPrice){
     var newItem = {
       EventId: $cookies.get('eventID'),
-      name: itemName // this is coming from ng-model
+      name: itemName, // this is coming from ng-model
+      price: itemPrice
     };
     return $http({
       method: 'POST',
