@@ -26,7 +26,7 @@ module.exports = {
   // add multiple guests to one event (changed to take in the whole event so we can access the creator ID)
   addAll: function(event, guests, callback) {
     // Add dummy guest to hold all unassigned items
-    guests.push({name: "STUFF TO GET", EventId: event.id});
+    guests.push({name: "Unassigned", EventId: event.id});
     // automatically create a guest entry for the event creator
     var creatorName = "";
     // find the user that created the event
