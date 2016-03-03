@@ -193,7 +193,6 @@ angular.module('eventDetails', ['eventList'])
   };
 
   var deleteItem = function (itemId) {
-    console.log(itemId);
     return $http({
       method: 'DELETE',
       url: '/api/items/' + itemId
