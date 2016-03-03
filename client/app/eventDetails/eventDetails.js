@@ -6,10 +6,23 @@ angular.module('eventDetails', ['eventList'])
   $scope.itemName;
   $scope.guestName;
   $scope.guestEmail;
+  $scope.itemPrice;
 
   // clear text in text field, takes a string as input
   $scope.resetField = function(field) {
     $scope[field] = "";
+  };
+
+  // adds a property on item used to decide to show value
+  $scope.isSelected = function(item) {
+    item.show = !(item.show);
+  };
+
+  // changes the price of an item
+  $scope.changePriceOfItem = function(item, newPrice) {
+    item.show = false;
+    requestFactory.updateSomePropOnItem(item, {price: newPrice});
+    item.price = newPrice;
   };
 
   // sends a POST request to insert a new item
@@ -187,7 +200,7 @@ angular.module('eventDetails', ['eventList'])
     })
     .then(function(res) {
       return res.data;
-    })
+    });
   };
 
   var sendEmails = function(eventID) {
@@ -205,7 +218,18 @@ angular.module('eventDetails', ['eventList'])
     })
     .then(function() {
       console.log("UPDATED DB");
+    });
+  };
+
+  var updateSomePropOnItem = function(item, propAndValueObject) {
+    return $http({
+      method: 'PUT',
+      url: '/api/items/' + item.id,
+      data: propAndValueObject
     })
+    .then(function() {
+      console.log("UPDATED DB");
+    });
   };
 
   var getUserDetails = function(userId) {
@@ -225,13 +249,14 @@ angular.module('eventDetails', ['eventList'])
       method: 'DELETE',
       url: '/api/items/' + itemId
     });
-  }
+  };
 
   return {
     getEvents: getEvents,
     sendEmails: sendEmails,
     updateItem: updateItem,
     getUserDetails: getUserDetails,
-    deleteItem: deleteItem
-  }
-})
+    deleteItem: deleteItem,
+    updateSomePropOnItem: updateSomePropOnItem
+  };
+});
