@@ -3,7 +3,7 @@ var Item = require('../models/models.js').Item;
 var Guest = require('../models/models.js').Guest;
 
 module.exports = {
-	//get all items for an event 
+	//get all items for an event
 	getAll: function(eventID, callback) {
 		Item
 			.findAll({
@@ -19,7 +19,7 @@ module.exports = {
 		Guest
 			.find({
 				where: {
-					name: "Unassigned",
+					name: "STILL NEEDED:",
 					EventId: item.EventId
 				}
 			})
@@ -29,7 +29,7 @@ module.exports = {
 					.create(item)
 					.then(function(newItem){
 						callback(newItem);
-					});		
+					});
 			})
 	},
 	//add multiple items to one event
