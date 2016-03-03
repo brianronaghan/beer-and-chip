@@ -25,9 +25,12 @@ module.exports = {
         // change to send addAll --- the whole event
         GuestQuery.addAll(event, data.guests, function() {
           // Add event's items and assign to guests
-          ItemQuery.addAll(event.id, data.items, function() {
-            // End response and send nothing back
-            res.send();
+          // ADD THE STILL NEEDED ID to these parameters:
+          var snID = GuestQuery.findStillNeeded(event.id, function (snID) {
+            ItemQuery.addAll(event.id, data.items, snID,function() {
+              // End response and send nothing back
+              res.send();
+            });
           });
         });
       });

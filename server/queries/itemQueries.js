@@ -30,29 +30,22 @@ module.exports = {
 					.then(function(newItem){
 						callback(newItem);
 					});
-			})
+			});
 	},
 	//add multiple items to one event
-	addAll: function(eventID, items, callback) {
-		Guest
-			.findAll({
-				where: {EventId: eventID}
-			})
-			.then(function(guests) {
-				// Distribute items among guests
-				if (guests.length) {
-					for (var i=0, j = 0; i < items.length; i++, j++) {
-						j = (j === guests.length) ? 0 : j;
-						items[i].EventId = eventID;
-						items[i].GuestId = guests[j].id;
-					}
-				}
-				Item
-					.bulkCreate(items)
-					.then(function(newItems) {
-						callback(newItems);
-					});
-			});
+  // CHANGE to add all items to STILL NEEDED on creation
+	addAll: function(eventID, items, stillNeededId, callback) {
+    console.log("AA -SNID ",stillNeededId);
+		// put all items on STILL NEEDED
+		for (var i=0, j = 0; i < items.length; i++, j++) {
+			items[i].EventId = eventID;
+			items[i].GuestId = stillNeededId;
+		}
+    Item
+    .bulkCreate(items)
+    .then(function(newItems) {
+      callback(newItems);
+    });
 	},
 
 	// update attributes of one item
