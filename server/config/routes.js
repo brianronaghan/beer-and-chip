@@ -13,6 +13,7 @@ var usersController = require('../controllers/usersController');
 router.get('/events/:userID', eventsController.events.get);
 router.post('/events', eventsController.events.post);
 router.get('/eventDetails/:eventID', eventsController.eventDetails.get);
+router.delete('/events', eventsController.events.delete);
 
 router.get('/email/:eventID', nodemailerController.get);
 

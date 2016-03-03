@@ -32,5 +32,25 @@ module.exports = {
   	  .then(function(event) {
   	  	callback(event)
   	  });
+  },
+  deleteOne: function(itemID, callback) {
+    Event
+      .destroy({
+        where: {id: itemID}
+      })
+      .then(function() {
+        callback();
+      })
   }
 };
+
+
+
+
+
+
+
+
+
+
+

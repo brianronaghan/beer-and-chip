@@ -31,6 +31,13 @@ module.exports = {
           });
         });
       });
+    },
+    delete: function(req, res) {
+      var eventID = req.query.eventID;
+      console.log('I RAN HOMIE ---->', eventID);
+      EventQuery.deleteOne(eventID, function(event) {
+        res.send(200, event);
+      });
     }
   },
 

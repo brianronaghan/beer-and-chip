@@ -25,6 +25,11 @@ angular.module('eventList', [])
     $location.path('/eventdetails/' + event.id);
   }
 
+  $scope.deleteEvents = function(event) {
+    EventFactory.deleteEvents(event);
+    initializeEvents();
+  }
+
   //when the page is requested by the user, the initialize
   //function automatically runs:
   //*@*@*@*WARNING NEED TO COMMENT THIS LINE AFTER DATABASE FUNCTIONS
@@ -41,7 +46,21 @@ angular.module('eventList', [])
 			return resp.data;
 		})
 	}
+
+  var deleteEvents = function(event) {
+    console.log('i RAN', event.id)
+    return $http({
+      method: 'DELETE',
+      url: '/api/events/',
+      params: {eventID: event.id}
+    })
+    .then(function(res) {
+      return res.data;
+    })
+  }
+
   return {
+    deleteEvents: deleteEvents,
     getEvents: getEvents
   }
 });
