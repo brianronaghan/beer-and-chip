@@ -1,7 +1,7 @@
 // Require sql models
 var Item = require('../models/models.js').Item;
 var Guest = require('../models/models.js').Guest;
-
+var EventQueries = require('./eventQueries');
 module.exports = {
 	//get all items for an event
 	getAll: function(eventID, callback) {
@@ -35,17 +35,24 @@ module.exports = {
 	//add multiple items to one event
   // CHANGE to add all items to STILL NEEDED on creation
 	addAll: function(eventID, items, stillNeededId, callback) {
-    console.log("AA -SNID ",stillNeededId);
 		// put all items on STILL NEEDED
-		for (var i=0, j = 0; i < items.length; i++, j++) {
+    var costToAdd = 0;
+		for (var i=0, j = 0; i < items.length; i++) {
 			items[i].EventId = eventID;
 			items[i].GuestId = stillNeededId;
+      // console.log(items[i].price);
+      costToAdd += Number(items[i].price);
+
+      // console.log("cost from add all ",costToAdd);
 		}
-    Item
-    .bulkCreate(items)
-    .then(function(newItems) {
-      callback(newItems);
+    EventQueries.updateTotalCost(eventID, costToAdd, function () {
+      Item
+        .bulkCreate(items)
+        .then(function(newItems) {
+          callback(newItems);
+        });
     });
+
 	},
 
 	// update attributes of one item
