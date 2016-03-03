@@ -33,7 +33,6 @@ module.exports = {
       // need to add function where (BEFORE WE DELETE THE GUEST)
       // we reassign any items a deleted guest had claimed to the STILL NEEDED 'guest'
       ItemQuery.reassignUsersItems(guestID, eventID, unAssId, function(){
-        console.log(req.params.guestID);
         GuestQuery.deleteOne(req.params.guestID, function(){
           res.send();
         });
