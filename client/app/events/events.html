@@ -23,7 +23,8 @@
 				<tr ng-repeat="event in data.events">
 					<td >
 						<h1>
-						<a href='' ng-click='getEvent(event)'> {{event.name}} -- {{event.date | date: 'fullDate'}} </a>
+						<a href='#' ng-click='getEvent(event)'> {{event.name}} -- {{event.date | date: 'fullDate'}} </a>
+            <input style='float: right' type="button" ng-click="deleteEvents(event)" value="Delete" />
 						</h1>
 					</td>
 				</tr>
