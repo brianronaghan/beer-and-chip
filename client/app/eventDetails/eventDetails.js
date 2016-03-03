@@ -138,6 +138,8 @@ angular.module('eventDetails', ['eventList'])
     return newName;
   };
 
+  $scope.deleteItem = requestFactory.deleteItem;
+
 /** EMAIL **/
   // sends unique eventDetails url to all guests
   $scope.email = function() {
@@ -190,10 +192,19 @@ angular.module('eventDetails', ['eventList'])
 
   };
 
+  var deleteItem = function (itemId) {
+    console.log(itemId);
+    return $http({
+      method: 'DELETE',
+      url: '/api/items/' + itemId
+    });
+  }
+
   return {
     getEvents: getEvents,
     sendEmails: sendEmails,
     updateItem: updateItem,
-    getUserDetails: getUserDetails
+    getUserDetails: getUserDetails,
+    deleteItem: deleteItem
   }
 })
