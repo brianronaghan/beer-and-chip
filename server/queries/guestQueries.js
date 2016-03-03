@@ -63,12 +63,27 @@ module.exports = {
 
   // delete one guest
   deleteOne: function(guestID, callback) {
+    console.log("id in del one ",guestID);
     Guest
       .destroy({
         where: {id: guestID}
       })
       .then(function() {
         callback();
-      })
+      });
+  },
+
+  // find the STILL NEEDED ID for any given eventID
+  findStillNeeded: function (eventID, callback) {
+    Guest
+			.find({
+				where: {
+					name: "STILL NEEDED:",
+					EventId: eventID
+				}
+			}).then(function (guest) {
+        console.log(guest.dataValues.id);
+        callback(guest.dataValues.id);
+      });
   }
 };
