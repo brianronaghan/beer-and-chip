@@ -1,18 +1,18 @@
 angular.module('eventDetails', ['eventList'])
-.controller('eventDetailsController', ['$scope', '$http', 'requestFactory', '$cookies', '$routeParams', function($scope, $http, requestFactory, $cookies, $routeParams) {  
+.controller('eventDetailsController', ['$scope', '$http', 'requestFactory', '$cookies', '$routeParams', function($scope, $http, requestFactory, $cookies, $routeParams) {
 /** ADD ITEM AND ADD GUEST INPUT BOXES **/
 
   // Holds text input from add item and add guest input boxes
   $scope.itemName;
-  $scope.guestName; 
-  $scope.guestEmail; 
+  $scope.guestName;
+  $scope.guestEmail;
 
   // clear text in text field, takes a string as input
   $scope.resetField = function(field) {
     $scope[field] = "";
   };
 
-  // sends a POST request to insert a new item 
+  // sends a POST request to insert a new item
   $scope.addItemFunc = function(itemName){
     var newItem = {
       EventId: $cookies.get('eventID'),
@@ -41,9 +41,19 @@ angular.module('eventDetails', ['eventList'])
       url: '/api/guests',
       data: newGuest
     }).then(function(){
-        $scope.resetField('guestName'); 
-        $scope.resetField('guestEmail'); 
+        $scope.resetField('guestName');
+        $scope.resetField('guestEmail');
         initializeDetails();
+    });
+
+  };
+
+  $scope.deleteGuest = function(guestId){
+    return $http({
+      method: 'DELETE',
+      url: '/api/guests/' + guestId +'/' + $routeParams.eventID
+    }).then(function(um){
+      initializeDetails();
     });
 
   };
@@ -61,15 +71,16 @@ angular.module('eventDetails', ['eventList'])
   $scope.details;
 
   // For simplicity when refering to the ng-model guests
-  var guests =  $scope.models.guests;
+  // var guests =  $scope.models.guests;
 
   var initializeDetails = function() {
+    $scope.models.guests = {};
     // Makes request to server for all event details
     requestFactory.getEvents($routeParams.eventID)
       .then(function(details) {
-        
         // assigns event details to ng-model details
         $scope.details = details;
+        // $scope.models.guests = details.guests;
 
         // temporarily holds guestId: [items]
         var temp = {};
@@ -89,9 +100,9 @@ angular.module('eventDetails', ['eventList'])
         for (var i = 0; i < details.guests.length; i++){
           var guestName = details.guests[i].name;
           var guestId = details.guests[i].id;
-          // Adds guestName and guestId to ng-model guests 
+          // Adds guestName and guestId to ng-model guests
           // and assigns guests an items array or an empty array
-          guests[guestName + ' ' + guestId] = temp[guestId] ? temp[guestId] : [];
+          $scope.models.guests[guestName + ' ' + guestId] = temp[guestId] ? temp[guestId] : [];
         }
         // added this so next then has details
         return details;
@@ -185,7 +196,7 @@ angular.module('eventDetails', ['eventList'])
     })
     .then(function(userName) {
       return userName;
-    });  
+    });
 
 
   };
