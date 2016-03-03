@@ -69,6 +69,19 @@ module.exports = {
       })
       .then(function() {
         callback();
-      })
+      });
+  },
+
+  // find the STILL NEEDED ID for any given eventID
+  findStillNeeded: function (eventID, callback) {
+    Guest
+			.find({
+				where: {
+					name: "STILL NEEDED:",
+					EventId: eventID
+				}
+			}).then(function (guest) {
+        callback(guest.dataValues.id);
+      });
   }
 };
