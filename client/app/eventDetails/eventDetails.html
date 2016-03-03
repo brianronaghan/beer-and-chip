@@ -58,14 +58,23 @@
       <h5>Forget anything?</h5>
       <!-- add item field -->
       <form novalidate name='eventItemDetails'>
+      <div>Items:</div>
+        <div>
         <span style="display:inline-block">
           <input type="text" ng-model="itemName" name="nameOfItem" id="addItem" placeholder="Enter Item" required>
         </span>
+        <span style="display:inline-block">
+          <input type="text" ng-model="itemPrice" name="priceOfItem" id="addItem" placeholder="Enter Item Cost" required>
+        </span>
 
         <!-- add item button -->
-        <input value='Add item' type="submit" class="nodemailer button" ng-click="addItemFunc(itemName)" ng-disabled='!eventItemDetails.nameOfItem.$valid'/>
+        <input value='Add item' type="submit" class="nodemailer button" ng-click="addItemFunc(itemName, itemPrice)" ng-disabled='!eventItemDetails.nameOfItem.$valid'/>
+        </div>
 
         <!-- add guest field  -->
+
+          <div>People:</div>
+        <div>
         <span style="display:inline-block">
           <input type="text" ng-model="guestName" name="addGuest" id="addGuest" value="" placeholder="Enter Guest" required/>
         </span>
@@ -75,6 +84,7 @@
 
         <!--add guest button  -->
         <input type="button" class="nodemailer button" value='Add guest' ng-click="addGuestFunc(guestName, guestEmail)" ng-disabled='!eventItemDetails.addGuest.$valid || !eventItemDetails.addEmail.$valid'>
+      </div>
       </div>
 
       <br><br>

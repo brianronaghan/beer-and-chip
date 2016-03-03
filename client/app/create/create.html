@@ -48,6 +48,7 @@
             <input type="button" value="X" ng-click="removeGuest($index)" class="button special small">
           </label>
         </div>
+        
         <input ng-click="addGuest()" type="button" class="button alt small" value="Add Guest" style="width:10%">
         <!-- <button ng-click="addGuest()">Add another guest</button> -->
         <br />
@@ -56,7 +57,12 @@
         <!-- <textarea ng-model="hold.items" ng-list="&#10;" ng-trim="false"></textarea> -->
         <div ng-repeat="item in items">
           <label>
-            <span style="display:inline-block; width:90%"><input type="text" ng-model="item.name" placeholder="Enter Item..."></span>
+            <span style="display:inline-block; width:60%">
+              <input type="text" ng-model="item.name" placeholder="Enter Item...">
+            </span>
+            <span style="display:inline-block; width:30%">
+              <input type="text" ng-model="item.price" placeholder="Enter Cost...">
+            </span>
             <input type="button" value="X" ng-click="removeItem($index)" class="button special small" >
           </label>
         </div>
