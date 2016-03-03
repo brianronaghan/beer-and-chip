@@ -894,7 +894,7 @@
 		input[type="reset"].special,
 		input[type="button"].special,
 		.button.special {
-			background-color: pink;
+			background-color: red;
 			color: #ffffff !important;
 			font-weight: bold;
 		}
