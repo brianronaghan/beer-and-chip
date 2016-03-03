@@ -57,6 +57,8 @@ angular.module('eventDetails', ['eventList'])
     });
 
   };
+  // function that determines whether a user is the still needed or the creatorName
+  // YO! creatorName still not working. Not a must have, but nice
   $scope.isSafe = function (user) {
     if ($scope.details.creatorName) {
       var userName = $scope.getName(user);
@@ -65,8 +67,6 @@ angular.module('eventDetails', ['eventList'])
       if (userId == $scope.details.guests[0].id) {
         return false;
       } else if (stringUser == $scope.details.creatorName) {
-        console.log($scope.details.creatorName);
-        console.log('in safe ', userName);
         return false;
       } else {
         return true;
