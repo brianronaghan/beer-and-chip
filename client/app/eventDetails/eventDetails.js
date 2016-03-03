@@ -25,6 +25,7 @@ angular.module('eventDetails', ['eventList'])
       data: newItem
     }).then(function(){
         $scope.resetField('itemName'); // reset text field
+        $scope.resetField('itemPrice');
         initializeDetails();
     });
 
