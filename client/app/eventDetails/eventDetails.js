@@ -57,6 +57,21 @@ angular.module('eventDetails', ['eventList'])
     });
 
   };
+  // function that determines whether a user is the still needed or the creatorName
+  $scope.isSafe = function (user) {
+    if ($scope.details.creatorName) {
+      var userName = $scope.getName(user);
+      var userId = $scope.getId(user);
+      var stringUser = userName.toString();
+      if (userId == $scope.details.guests[0].id) {
+        return false;
+      } else if (stringUser.trim() == $scope.details.creatorName.trim()) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  };
 
 /** DRAG AND DROP TABLE **/
 
