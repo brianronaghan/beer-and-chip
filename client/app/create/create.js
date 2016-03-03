@@ -69,7 +69,7 @@ angular.module('createEvent', [])
   //send a post request to server
 
   var addEvent = function(event) {
-    console.log("EVENT", event);
+    // console.log("EVENT", event);
     return $http({
       method: 'POST',
       url: '/api/events',
