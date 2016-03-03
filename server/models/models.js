@@ -19,7 +19,9 @@ var Event = db.define('Event', {
   name: Sequelize.STRING,
   description: Sequelize.STRING,
   date: Sequelize.DATE,
-  location: Sequelize.STRING
+  location: Sequelize.STRING,
+  numGuests: Sequelize.INTEGER,
+  totalCost: Sequelize.FLOAT
 });
 
 var Guest = db.define('Guest', {
