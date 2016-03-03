@@ -30,13 +30,15 @@ module.exports = {
     var unAssId;
     GuestQuery.findStillNeeded(eventID, function (id){
       unAssId = id;
-      // need to add function where (BEFORE WE DELETE THE GUEST)
-      // we reassign any items a deleted guest had claimed to the STILL NEEDED 'guest'
-      ItemQuery.reassignUsersItems(guestID, eventID, unAssId, function(){
-        GuestQuery.deleteOne(req.params.guestID, function(){
-          res.send();
+      if ((unAssId != guestID) && (guestID)) {
+        // need to add function where (BEFORE WE DELETE THE GUEST)
+        // we reassign any items a deleted guest had claimed to the STILL NEEDED 'guest'
+        ItemQuery.reassignUsersItems(guestID, eventID, unAssId, function(){
+          GuestQuery.deleteOne(req.params.guestID, function(){
+            res.send();
+          });
         });
-      });
+      }
     });
 
 

@@ -57,6 +57,22 @@ angular.module('eventDetails', ['eventList'])
     });
 
   };
+  $scope.isSafe = function (user) {
+    if ($scope.details.creatorName) {
+      var userName = $scope.getName(user);
+      var userId = $scope.getId(user);
+      var stringUser = userName.toString();
+      if (userId == $scope.details.guests[0].id) {
+        return false;
+      } else if (stringUser == $scope.details.creatorName) {
+        console.log($scope.details.creatorName);
+        console.log('in safe ', userName);
+        return false;
+      } else {
+        return true;
+      }
+    }
+  };
 
 /** DRAG AND DROP TABLE **/
 
