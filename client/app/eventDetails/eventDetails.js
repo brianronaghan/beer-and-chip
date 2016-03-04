@@ -7,10 +7,101 @@ angular.module('eventDetails', ['eventList'])
   $scope.guestName;
   $scope.guestEmail;
   $scope.itemPrice;
-
+  $scope.settling = false;
+  $scope.payments = [];
+  $scope.average;
+  // calculates easiest way to settle the bill, called in initializeDetails
+  calcPayments = function () {
+    // for every guest
+    var payments = [];
+    var avg = $scope.average;
+    var under =[];
+    var over =[];
+    for(var key in $scope.models.guests) {
+      // if the guest isn't the still needed
+      if(!key.includes("STILL NEEDED")) {
+        // get the guest's name and total spend
+        var theName = $scope.getName(key);
+        var spent = $scope.getSpent($scope.getId(key));
+        var person = {name: theName};
+        // if the guest spent less than average, put her in the under
+        if(spent < avg) {
+          person.owes = avg-spent;
+          under.push(person);
+        // if the guest spent more than average, put her in the over
+      } else if (spent > avg) {
+          person.owed = spent-avg;
+          over.push(person);
+        } // (if the guest spent average, they need no transactions)
+      }
+    }
+    // sort the unders and over arrays
+    under.sort(function(a,b){
+      // sort the under array from low to high (owes)
+      return a.owes-b.owes;
+    });
+    over.sort(function(a,b){
+      // sort the over array from high to low owed
+      return b.owed-a.owed;
+    });
+    // iterate from back of over array
+    var underIn = 0;
+    console.log(under);
+    console.log(over);
+    for(var overIn = 0; overIn < over.length && underIn < under.length; overIn++) {
+      // declare temp payment object, set to and from
+      var payment = {};
+      console.log(underIn);
+      payment.from = under[underIn].name;
+      payment.to = over[overIn].name;
+      // if the over person is owed more than (or exactly) what the under person owes
+      if (over[overIn].owed > under[underIn].owes) {
+        // make a payment from under to over for entire under owes
+        var theAmount = under[underIn].owes;
+        payment.amount = theAmount;
+        payments.push(payment);
+        //update owed and owes
+        //the under now owes nothing
+        under[underIn].owes = 0;
+        // the amount the over has coming is lessened by the payment amount
+        over[overIn].owed -= theAmount;
+        // increment underIn (meaning we're done with the first under)
+        underIn++;
+        // decrement overIn(so that next time through the FOR, we're on the same over)
+        overIn--;
+        // ELSE: if the over person is owed LESS than the under OWES
+      } else if (over[overIn].owed < under[underIn].owes) {
+        // make a payment from under to over for entire over owed
+        var theAmount = over[overIn].owed;
+        payment.amount = theAmount;
+        payments.push(payment);
+        //update owed and owes
+        // the over is now owed nothing
+        over[overIn].owed = 0;
+        // the under's debt is lessened by amount paid
+        under[underIn].owes -= theAmount;
+        // we don't need to change either index: we still need the under, and we're done with the over
+      } else { // IF what over is owed is exactly what under owes
+        // make a payment from under to over for entire under owes
+        var theAmount = over[overIn].owed;
+        payment.amount = theAmount;
+        payments.push(payment);
+        //update owed and owes
+        over[overIn].owed = 0;
+        under[underIn].owes = 0;
+        // increment underIn (we're done with the under, over will auto inc)
+        underIn++;
+      }
+    }
+    $scope.payments = payments;// console.log($scope.payments);
+  };
   // clear text in text field, takes a string as input
   $scope.resetField = function(field) {
     $scope[field] = "";
+  };
+  //makes settleUp box appear
+  $scope.settleUp = function () {
+    $scope.settling = !$scope.settling;
   };
 
   // adds a property on item used to decide to show value
@@ -121,6 +212,7 @@ angular.module('eventDetails', ['eventList'])
         // assigns event details to ng-model details
         $scope.details = details;
         // $scope.models.guests = details.guests;
+        $scope.average = $scope.details.event.totalCost/$scope.details.event.numGuests;
 
         // temporarily holds guestId: [items]
         var temp = {};
@@ -153,6 +245,7 @@ angular.module('eventDetails', ['eventList'])
       })
       .then(function(creatorName) {
         $scope.details.creatorName = creatorName.data;
+        calcPayments();
       });
   };
 
@@ -178,19 +271,14 @@ angular.module('eventDetails', ['eventList'])
   };
 
   //parse guestInfo and $scope.details for price differential/person
-  $scope.getOwed = function (guestInfo) {
-    var arr = guestInfo.split(" ");
-    var id = Number(arr[arr.length-1]);
-    var avg = $scope.details.event.totalCost/$scope.details.event.numGuests;
-    var spent = $scope.details.items.reduce(function(acc, item){
+  $scope.getSpent = function (id) {
+    return $scope.details.items.reduce(function(acc, item){
       if(item.GuestId == id) {
         return acc + item.price;
       } else {
         return acc;
       }
     }, 0);
-    // console.log(id, " ",spent);
-    return spent - avg;
   };
 
   // parse guestInfo for guest name
