@@ -37,7 +37,7 @@
                 </div>
               </div>
               <div class="panel-body">
-                <div class='button special small' style="margin: 5px 0px" ng-show="isUninviteable(guestInfo)" ng-click='deleteGuest(getId(guestInfo))'> uninvite </div>
+                <div class='button special small' style="margin: 5px 0px" ng-show="isUninviteable(guestInfo)" ng-click='deleteGuest(getId(guestInfo))'> can't go </div>
                 <ul dnd-list="list"
                     dnd-drop="reassignItem(item, guestInfo)">
                   <li ng-repeat="item in list"
