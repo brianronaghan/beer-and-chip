@@ -21,9 +21,11 @@ angular.module('eventDetails', ['eventList'])
   // changes the price of an item
   $scope.changePriceOfItem = function(item, newPrice) {
     item.show = false;
-    requestFactory.updateSomePropOnItem(item, {price: newPrice});
+    requestFactory.updateSomePropOnItem(item, {price: newPrice})
+    .then(function () {
+      socket.emit('eventDetails change');
+    });
     item.price = newPrice;
-    socket.emit('eventDetails change');
   };
 
   // sends a POST request to insert a new item
@@ -157,8 +159,10 @@ angular.module('eventDetails', ['eventList'])
   // Fires when an item is moved to a column
   $scope.reassignItem = function(item, guestInfo) {
     var guestId = $scope.getId(guestInfo);
-    requestFactory.updateItem(item, guestId);
-    socket.emit('eventDetails change');
+    requestFactory.updateItem(item, guestId)
+    .then(function () {
+      socket.emit('eventDetails change');
+    });
     // nessesary for drag-and-drop visualization
     // return false to reject visual update
     return item;
@@ -205,8 +209,10 @@ angular.module('eventDetails', ['eventList'])
   };
 
   $scope.deleteItem = function (itemId) {
-    requestFactory.deleteItem(itemId);
-    socket.emit('eventDetails change');
+    requestFactory.deleteItem(itemId)
+    .then(function () {
+      socket.emit('eventDetails change');
+    });
   }
 /** EMAIL **/
   // sends unique eventDetails url to all guests
