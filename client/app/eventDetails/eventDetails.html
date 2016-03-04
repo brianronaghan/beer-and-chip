@@ -31,13 +31,14 @@
           <div ng-repeat="(guestInfo, list) in models.guests" class="col-md-6">
             <div class="panel panel-info">
               <div class="panel-heading">
-                <h3 class="panel-title">{{getName(guestInfo)}}</h3>
+                <h3 class="panel-title">{{getName(guestInfo)}}
+                <div class='button special small xsmall' style="margin: 5px 0px" ng-show="isUninviteable(guestInfo)" ng-click='deleteGuest(getId(guestInfo))'> can't go </div></h3>
                 <div ng-show="isPerson(guestInfo)"class="spent">
                   <p class="amount" style='background: #CEE3F6; padding: 3px'>Spent: ${{getSpent(getId(guestInfo))}} </p>
                 </div>
               </div>
               <div class="panel-body">
-                <div class='button special small' style="margin: 5px 0px" ng-show="isUninviteable(guestInfo)" ng-click='deleteGuest(getId(guestInfo))'> can't go </div>
+                <!-- <div class='button special small' style="margin: 5px 0px" ng-show="isUninviteable(guestInfo)" ng-click='deleteGuest(getId(guestInfo))'> can't go </div> -->
                 <ul dnd-list="list"
                     dnd-drop="reassignItem(item, guestInfo)">
                   <li ng-repeat="item in list"
