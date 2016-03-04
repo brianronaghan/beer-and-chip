@@ -1,7 +1,7 @@
 // Require sql model
 var Guest = require('../models/models').Guest;
 var User = require('../models/models').User;
-var EventQueries = require('./eventQueries');
+var EventQuery = require('./eventQueries');
 
 module.exports = {
   // get all guests from an event
@@ -42,7 +42,7 @@ module.exports = {
       	guests[i].EventId = event.id;
       }
       // update number of guests on event
-      EventQueries.updateNumberOfGuests(event.id, guests.length-1,function () {
+      EventQuery.updateNumberOfGuests(event.id, guests.length-1,function () {
         Guest
           .bulkCreate(guests)
           .then(function(newGuests) {

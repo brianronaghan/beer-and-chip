@@ -12,7 +12,7 @@ module.exports = {
 
   post: function(req, res) {
     var guest = req.body;
-    console.log(req.body);
+    // console.log(req.body);
     GuestQuery.addOne(guest, function(newGuest) {
       EventQuery.incOrDecGuestNum(req.body.EventId, 1, function() {
         res.json(newGuest);
