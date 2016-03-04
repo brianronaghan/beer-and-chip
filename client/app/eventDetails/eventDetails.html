@@ -37,8 +37,8 @@
                       ng-class="{'selected': models.selected === item}"
                       >
                       <div>{{item.name}}</div><div ng-click="isSelected(item)">${{item.price}}</div>
-                      <input type='text' ng-model="newPrice" ng-show="item.show" placeholder='change price' />
-                      <input ng-show="item.show" value='Change Price' type="submit" class="nodemailer button" ng-click="changePriceOfItem(item, newPrice)" />
+                      <input type='text' ng-model="newPrice" ng-show="item.show" placeholder='New price' />
+                      <input style='margin: 5px 0px'ng-show="item.show" value='New Price' type="submit" class="nodemailer button" ng-click="changePriceOfItem(item, newPrice)" />
                   </li>
                 </ul>
               </div>
