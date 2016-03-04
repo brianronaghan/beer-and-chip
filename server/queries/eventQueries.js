@@ -40,14 +40,13 @@ module.exports = {
           where: {EventId: itemID}
         })
         .then(function() {
-          Event
-            .destroy({
-              where: {id: itemID}
-            })
-            .then(function(event) {
-              callback(event);
-            });
+          return Event.destroy({
+            where: {id: itemID}
+          })
+        .then(function(event) {
+          callback(event);
         });
+    });
   },
   updateNumberOfGuests: function (eventID,guestNum, callback) {
 
