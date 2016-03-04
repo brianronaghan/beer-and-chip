@@ -23,7 +23,7 @@
           <div ng-repeat="(guestInfo, list) in models.guests" class="col-md-6">
             <div class="panel panel-info">
               <div class="panel-heading">
-                  <h3 class="panel-title">{{getName(guestInfo)}}</h3>
+                <h3 class="panel-title">{{getName(guestInfo)}}</h3>
               </div>
               <div class="panel-body" >
                 <h4 ng-show="isSafe(guestInfo)"ng-click='deleteGuest(getId(guestInfo))'> uninvite </h4></a>
@@ -39,11 +39,10 @@
                       <div>{{item.name}}</div><div ng-click="isSelected(item)">${{item.price}}</div>
                       <input type='text' ng-model="newPrice" ng-show="item.show" placeholder='change price' />
                       <input ng-show="item.show" value='Change Price' type="submit" class="nodemailer button" ng-click="changePriceOfItem(item, newPrice)" />
-        </div>
                   </li>
                 </ul>
               </div>
-              </div>
+            </div>
           </div>
           <div>
             <!-- Empty array prevents error from dnd-moved -->
@@ -88,7 +87,6 @@
         <!--add guest button  -->
         <input type="button" class="nodemailer button" value='Add guest' ng-click="addGuestFunc(guestName, guestEmail)" ng-disabled='!eventItemDetails.addGuest.$valid || !eventItemDetails.addEmail.$valid'>
       </div>
-      </div>
 
       <br><br>
 
@@ -97,5 +95,6 @@
         Send Event Details to Guests
       </button>
     </form>
+      </div>
   </div>
 </section>
