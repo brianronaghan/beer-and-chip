@@ -23,6 +23,7 @@ angular.module('eventDetails', ['eventList'])
     item.show = false;
     requestFactory.updateSomePropOnItem(item, {price: newPrice});
     item.price = newPrice;
+    socket.emit('eventDetails change');
   };
 
   // sends a POST request to insert a new item
@@ -39,7 +40,7 @@ angular.module('eventDetails', ['eventList'])
     }).then(function(){
         $scope.resetField('itemName'); // reset text field
         $scope.resetField('itemPrice');
-        initializeDetails();
+        socket.emit('eventDetails change');
     });
 
   };
@@ -58,7 +59,7 @@ angular.module('eventDetails', ['eventList'])
     }).then(function(){
         $scope.resetField('guestName');
         $scope.resetField('guestEmail');
-        initializeDetails();
+        socket.emit('eventDetails change');
     });
 
   };
@@ -68,7 +69,7 @@ angular.module('eventDetails', ['eventList'])
       method: 'DELETE',
       url: '/api/guests/' + guestId +'/' + $routeParams.eventID
     }).then(function(um){
-      initializeDetails();
+      socket.emit('eventDetails change');
     });
 
   };
@@ -150,6 +151,7 @@ angular.module('eventDetails', ['eventList'])
   $scope.reassignItem = function(item, guestInfo) {
     var guestId = $scope.getId(guestInfo);
     requestFactory.updateItem(item, guestId);
+    socket.emit('eventDetails change');
     // nessesary for drag-and-drop visualization
     // return false to reject visual update
     return item;
@@ -179,8 +181,10 @@ angular.module('eventDetails', ['eventList'])
     return newName;
   };
 
-  $scope.deleteItem = requestFactory.deleteItem;
-
+  $scope.deleteItem = function (itemId) {
+    requestFactory.deleteItem(itemId);
+    socket.emit('eventDetails change');
+  }
 /** EMAIL **/
   // sends unique eventDetails url to all guests
   $scope.email = function() {
@@ -190,6 +194,11 @@ angular.module('eventDetails', ['eventList'])
 
 /** INITIALIZE ON PAGE LOAD **/
   initializeDetails();
+
+  socket.on('eventDetails change', function () {
+    initializeDetails();
+  });
+
 }])
 
 .factory('requestFactory', function($http, $cookies) {
