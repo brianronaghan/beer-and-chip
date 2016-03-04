@@ -9,19 +9,21 @@
     <header class="major">
       <h2>Event Details</h2>
     </header>
-    <div>{{details.event}} </div>
+    <div>D3 Data Debug: {{payments}} </div>
   	<div>
   		<div>
-  		  <h4>What: {{details.event.name}}</h4>
-  		  <h5>Where: {{details.event.location}}</h5>
-  		  <h5>When: {{details.event.date| date: 'fullDate'}}</h5>
-        <h4>Cost Per Person: $ {{average}}
-        <p>Created By: {{details.creatorName}}</p>
+  		  <h2>What: {{details.event.name}}</h2>
+  		  <h3>Where: {{details.event.location}}</h3>
+  		  <h3>When: {{details.event.date| date: 'fullDate'}}</h3>
+        <h3>Cost Per Person: $ {{average}}</h3>
+        <h3>Created By: {{details.creatorName}}</h3>
   		</div>
-      <div class="nodemailer button" ng-click="settleUp()">Settle Up!</div>
-        <div class="settleInfo" ng-show="settling">
-          Settling!
-          <div ng-repeat="payment in payments"> {{payment.from}} PAYS {{payment.to}} $ {{payment.amount}}</div>
+      <div class="nodemailer button" ng-click="settleUp()" style="margin: 5px 0px">Settle Up!</div>
+        <div class="settleInfo" ng-show="settling" style="margin: 10px 0px" >
+          <li ng-repeat="payment in payments" style='line-height: 30px; font-size: 17px'> <b>{{payment.from}}</b> PAYS <b>{{payment.to}} </b> $ {{payment.amount}}</li>
+      </div>
+      <div>
+        Place holder for D3
       </div>
       <!-- Drag-and-Drop Table -->
       <div class="table-wrapper">
@@ -31,11 +33,11 @@
               <div class="panel-heading">
                 <h3 class="panel-title">{{getName(guestInfo)}}</h3>
                 <div ng-show="isPerson(guestInfo)"class="spent">
-                  <span class="amount">Spent: ${{getSpent(getId(guestInfo))}}
-                  </div>
+                  <p class="amount" style='background: #CEE3F6; padding: 3px'>Spent: ${{getSpent(getId(guestInfo))}} </p>
+                </div>
               </div>
               <div class="panel-body">
-                <h4 ng-show="isUninviteable(guestInfo)"ng-click='deleteGuest(getId(guestInfo))'> uninvite </h4></a>
+                <div class='button special small' style="margin: 5px 0px" ng-show="isUninviteable(guestInfo)" ng-click='deleteGuest(getId(guestInfo))'> uninvite </div>
                 <ul dnd-list="list"
                     dnd-drop="reassignItem(item, guestInfo)">
                   <li ng-repeat="item in list"
