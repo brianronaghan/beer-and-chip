@@ -75,8 +75,6 @@ module.exports = {
     })
     .then (function (event) {
       var newCost;
-      // console.log(event.totalCost);
-      // console.log(priceToAdd);
       if (event.totalCost !== null) {
         newCost = event.totalCost + priceToAdd;
       } else {
@@ -87,7 +85,6 @@ module.exports = {
           where: {id: eventID}
         })
         .then(function (){
-          // console.log(event.totalCost);
           callback();
         });
     });

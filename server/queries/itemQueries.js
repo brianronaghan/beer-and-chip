@@ -40,10 +40,9 @@ module.exports = {
 		for (var i=0, j = 0; i < items.length; i++) {
 			items[i].EventId = eventID;
 			items[i].GuestId = stillNeededId;
-      // console.log(items[i].price);
-      costToAdd += Number(items[i].price);
-
-      // console.log("cost from add all ",costToAdd);
+      if(items[i].price) {
+        costToAdd += Number(items[i].price);
+      }
 		}
     EventQueries.updateTotalCost(eventID, costToAdd, function () {
       Item
@@ -62,8 +61,12 @@ module.exports = {
 				where: {id: itemID}
 			})
 			.then(function() {
-				callback();
-			});
+        Item.findOne({
+          where: {id: itemID}
+      }).then(function(item){
+        callback(item.dataValues.EventId);
+      });
+		});
 	},
   // reassign items of one user to the STILL TO BE added
   reassignUsersItems: function(userId, eventId, unAssId, callback) {
@@ -89,14 +92,29 @@ module.exports = {
       });
 
 	},
+  getCostOfOne: function(itemId, callback) {
+    Item.findOne({
+      where: {id: itemId}
+    })
+    .then(function (item) {
+      callback(item.price);
+    });
+  },
 	// delete one item
 	deleteOne: function(itemID, callback) {
-		Item
-			.destroy({
-				where: {id: itemID}
-			})
-			.then(function() {
-				callback();
-			})
+    Item.findOne({
+      where: {id: itemID}
+    }).then(function(item){
+      var deletedStats = {};
+      deletedStats.price = item.price;
+      deletedStats.EventId = item.EventId;
+      Item
+  			.destroy({
+  				where: {id: itemID}
+  			})
+  			.then(function() {
+          callback(deletedStats);
+        });
+    });
 	}
 };
