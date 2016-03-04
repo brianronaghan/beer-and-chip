@@ -46,12 +46,9 @@ angular.module('eventDetails', ['eventList'])
     });
     // iterate from back of over array
     var underIn = 0;
-    console.log(under);
-    console.log(over);
     for(var overIn = 0; overIn < over.length && underIn < under.length; overIn++) {
       // declare temp payment object, set to and from
       var payment = {};
-      console.log(underIn);
       payment.from = under[underIn].name;
       payment.to = over[overIn].name;
       // if the over person is owed more than (or exactly) what the under person owes
@@ -212,7 +209,11 @@ angular.module('eventDetails', ['eventList'])
         // assigns event details to ng-model details
         $scope.details = details;
         // $scope.models.guests = details.guests;
-        $scope.average = $scope.details.event.totalCost/$scope.details.event.numGuests;
+        if ($scope.details.event.totalCost === 0) {
+          $scope.average = "free!";
+        } else {
+          $scope.average = $scope.details.event.totalCost/$scope.details.event.numGuests;
+        }
 
         // temporarily holds guestId: [items]
         var temp = {};
