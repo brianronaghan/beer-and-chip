@@ -26,8 +26,9 @@ angular.module('eventList', [])
   }
 
   $scope.deleteEvents = function(event) {
-    EventFactory.deleteEvents(event);
-    initializeEvents();
+    EventFactory.deleteEvents(event).then(function() {
+      initializeEvents();
+    });
   }
 
   //when the page is requested by the user, the initialize

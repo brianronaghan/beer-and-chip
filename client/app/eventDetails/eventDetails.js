@@ -29,9 +29,11 @@ angular.module('eventDetails', ['eventList'])
   // changes the price of an item
   $scope.changePriceOfItem = function(item, newPrice) {
     item.show = false;
-    requestFactory.updateSomePropOnItem(item, {price: newPrice});
+    requestFactory.updateSomePropOnItem(item, {price: newPrice})
+    .then(function () {
+      socket.emit('eventDetails change');
+    });
     item.price = newPrice;
-    socket.emit('eventDetails change');
   };
 
   // sends a POST request to insert a new item
@@ -82,18 +84,25 @@ angular.module('eventDetails', ['eventList'])
 
   };
   // function that determines whether a user is the still needed or the creatorName
-  $scope.isSafe = function (user) {
+  $scope.isUninviteable = function (user) {
     if ($scope.details.creatorName) {
       var userName = $scope.getName(user);
       var userId = $scope.getId(user);
       var stringUser = userName.toString();
-      if (userId == $scope.details.guests[0].id) {
-        return false;
-      } else if (stringUser.trim() == $scope.details.creatorName.trim()) {
+      if (stringUser.trim() == $scope.details.creatorName.trim()) {
         return false;
       } else {
-        return true;
+        return $scope.isPerson(user);
       }
+    }
+  };
+
+  $scope.isPerson = function (user) {
+    var userId = $scope.getId(user);
+    if (userId == $scope.details.guests[0].id) {
+      return false;
+    } else {
+      return true;
     }
   };
 
@@ -158,8 +167,10 @@ angular.module('eventDetails', ['eventList'])
   // Fires when an item is moved to a column
   $scope.reassignItem = function(item, guestInfo) {
     var guestId = $scope.getId(guestInfo);
-    requestFactory.updateItem(item, guestId);
-    socket.emit('eventDetails change');
+    requestFactory.updateItem(item, guestId)
+    .then(function () {
+      socket.emit('eventDetails change');
+    });
     // nessesary for drag-and-drop visualization
     // return false to reject visual update
     return item;
@@ -172,6 +183,22 @@ angular.module('eventDetails', ['eventList'])
     var name = guestInfo;
     name = name.split(' ');
     return name[name.length - 1];
+  };
+
+  //parse guestInfo and $scope.details for price differential/person
+  $scope.getOwed = function (guestInfo) {
+    var arr = guestInfo.split(" ");
+    var id = Number(arr[arr.length-1]);
+    var avg = $scope.details.event.totalCost/$scope.details.event.numGuests;
+    var spent = $scope.details.items.reduce(function(acc, item){
+      if(item.GuestId == id) {
+        return acc + item.price;
+      } else {
+        return acc;
+      }
+    }, 0);
+    // console.log(id, " ",spent);
+    return spent - avg;
   };
 
   // parse guestInfo for guest name
@@ -190,8 +217,10 @@ angular.module('eventDetails', ['eventList'])
   };
 
   $scope.deleteItem = function (itemId) {
-    requestFactory.deleteItem(itemId);
-    socket.emit('eventDetails change');
+    requestFactory.deleteItem(itemId)
+    .then(function () {
+      socket.emit('eventDetails change');
+    });
   }
 /** EMAIL **/
   // sends unique eventDetails url to all guests
