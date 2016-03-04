@@ -27,14 +27,18 @@ module.exports = {
 	put: function(req, res) {
 		var itemID = req.params.itemID;
 		var newAttrs = req.body;
+    console.log(newAttrs);
     ItemQuery.getCostOfOne(itemID, function (oldCost) {
       ItemQuery.updateOne(itemID, newAttrs, function(eventId) {
+        console.log(eventId);
         if(newAttrs.hasOwnProperty('price')) {
           var difference = Number(newAttrs.price - oldCost);
+          console.log("dif ",difference);
           EventQuery.updateTotalCost(eventId, difference, function () {
             res.send();
           });
         }
+        res.send();
   		});
     });
 	},
