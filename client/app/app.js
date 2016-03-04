@@ -1,7 +1,6 @@
 // Declare app level module which depends on filters, and services
 angular.module('myApp', [
-  'createEvent', 'eventList', 'eventDetails', 'ngRoute', 'auth', 'dndLists'
-
+  'createEvent', 'eventList', 'eventDetails', 'payouts', 'ngRoute', 'auth', 'dndLists'
 ])
 .config(['$routeProvider', '$httpProvider',function($routeProvider, $httpProvider) {
   $routeProvider.when('/', {
@@ -19,7 +18,11 @@ angular.module('myApp', [
   $routeProvider.when('/signin',{
     templateUrl: 'app/auth/signin.html',
     controller: 'AuthController'
-  });
+  })
+  $routeProvider.when('/d3test', {
+    templateUrl: 'app/payout/payout.html',
+    controller: 'PayoutController'
+  })
   $routeProvider.otherwise({redirectTo: '/'});
 
 

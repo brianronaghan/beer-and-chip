@@ -1312,4 +1312,12 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0; 
 }
 
-
+input[type="button"],
+	.button.xsmall {
+		height: 20px;
+		line-height: 0.9em;
+		float:right;
+		margin: 0 2px;
+		font-size: 0.6em;
+		padding: 0 2em;
+}
