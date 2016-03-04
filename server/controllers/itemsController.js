@@ -10,7 +10,6 @@ module.exports = {
 
 	post: function(req, res) {
 		var item = req.body;
-    console.log(item);
     if(!item.price) {
       item.price = null;
     }
@@ -31,7 +30,6 @@ module.exports = {
     ItemQuery.getCostOfOne(itemID, function (oldCost) {
       ItemQuery.updateOne(itemID, newAttrs, function(eventId) {
         if(newAttrs.hasOwnProperty('price')) {
-          console.log(newAttrs.price - oldCost);
           var difference = Number(newAttrs.price - oldCost);
           EventQuery.updateTotalCost(eventId, difference, function () {
             res.send();
