@@ -1,4 +1,5 @@
 var Event = require('../models/models').Event;
+var Guest = require('../models/models').Guest;
 var UserQueries = require('./userQueries');
 
 module.exports = {
@@ -34,13 +35,19 @@ module.exports = {
   	  });
   },
   deleteOne: function(itemID, callback) {
-    Event
-      .destroy({
-        where: {id: itemID}
-      })
-      .then(function(event) {
-        callback(event);
-      })
+      Guest
+        .destroy({
+          where: {EventId: itemID}
+        })
+        .then(function() {
+          Event
+            .destroy({
+              where: {id: itemID}
+            })
+            .then(function(event) {
+              callback(event);
+            });
+        });
   },
   updateNumberOfGuests: function (eventID,guestNum, callback) {
 
