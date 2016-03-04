@@ -16,10 +16,20 @@ var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var router = require('./config/routes.js');
 
 var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
+// socket.io
+io.on('connection', function (socket) {
+  socket.on('eventDetails change', function () {
+    io.emit('eventDetails change');
+  });
+});
+
 
 //set port and listen
 var port = process.env.PORT || 3000;
-app.listen(port, function(){
+http.listen(port, function(){
   console.log('Listening on port:'+port);
 });
 
@@ -134,7 +144,7 @@ app.get('/auth/facebook/callback',
 
 //if we are being rung directly, run the server
 if(!module.parent) {
-  app.listen(app.get('port'));
+  http.listen(app.get('port'));
   console.log('Listening on', app.get('port'));
 }
 
