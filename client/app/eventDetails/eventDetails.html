@@ -41,8 +41,8 @@
                       ng-class="{'selected': models.selected === item}"
                       >
                       <div>{{item.name}}</div><div ng-click="isSelected(item)">${{item.price}}</div>
-                      <input type='text' ng-model="newPrice" ng-show="item.show" placeholder='New price' />
-                      <input style='margin: 5px 0px'ng-show="item.show" value='New Price' type="submit" class="nodemailer button" ng-click="changePriceOfItem(item, newPrice)" />
+                      <div><input type='number' ng-model="newPrice" ng-show="item.show" placeholder='New cost' /></div>
+                      <div><input style='margin: 5px 0px'ng-show="item.show" value='Update Cost' type="submit" class="nodemailer button" ng-click="changePriceOfItem(item, newPrice)" /></div>
                   </li>
                 </ul>
               </div>
@@ -70,11 +70,12 @@
           <input type="text" ng-model="itemName" name="nameOfItem" id="addItem" placeholder="Enter Item" required>
         </span>
         <span style="display:inline-block">
-          <input type="text" ng-model="itemPrice" name="priceOfItem" id="addItem" placeholder="Enter Item Cost" required>
+          <input type="number" ng-model="itemPrice" name="priceOfItem" id="addItem" placeholder="Enter Item Cost"  required>
         </span>
-
         <!-- add item button -->
-        <input value='Add item' type="submit" class="nodemailer button" ng-click="addItemFunc(itemName, itemPrice)" ng-disabled='!eventItemDetails.nameOfItem.$valid'/>
+        <input value='Add item' type="submit" class="nodemailer button" 
+        ng-click="addItemFunc(itemName, itemPrice)" 
+        ng-disabled='!eventItemDetails.nameOfItem.$valid'/>
         </div>
 
         <!-- add guest field  -->

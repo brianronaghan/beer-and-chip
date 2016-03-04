@@ -1294,3 +1294,17 @@
     background-color: #dff0d8;
     color: #3c763d;
 }
+
+
+/**
+ * trying to remove number increment
+ */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+
+
