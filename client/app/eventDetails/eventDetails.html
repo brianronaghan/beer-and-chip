@@ -66,11 +66,12 @@
           <input type="text" ng-model="itemName" name="nameOfItem" id="addItem" placeholder="Enter Item" required>
         </span>
         <span style="display:inline-block">
-          <input type="text" ng-model="itemPrice" name="priceOfItem" id="addItem" placeholder="Enter Item Cost" required>
+          <input type="number" ng-model="itemPrice" name="priceOfItem" id="addItem" placeholder="Enter Item Cost"  required>
         </span>
-
         <!-- add item button -->
-        <input value='Add item' type="submit" class="nodemailer button" ng-click="addItemFunc(itemName, itemPrice)" ng-disabled='!eventItemDetails.nameOfItem.$valid'/>
+        <input value='Add item' type="submit" class="nodemailer button" 
+        ng-click="addItemFunc(itemName, itemPrice)" 
+        ng-disabled='!eventItemDetails.nameOfItem.$valid'/>
         </div>
 
         <!-- add guest field  -->
