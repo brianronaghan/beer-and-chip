@@ -15,9 +15,14 @@
   		  <h4>What: {{details.event.name}}</h4>
   		  <h5>Where: {{details.event.location}}</h5>
   		  <h5>When: {{details.event.date| date: 'fullDate'}}</h5>
-        <h4>Cost Per Person: $ {{details.event.totalCost/details.event.numGuests}}
+        <h4>Cost Per Person: $ {{average}}
         <p>Created By: {{details.creatorName}}</p>
   		</div>
+      <div class="nodemailer button" ng-click="settleUp()">Settle Up!</div>
+        <div class="settleInfo" ng-show="settling">
+          Settling!
+          <div ng-repeat="payment in payments"> {{payment.from}} PAYS {{payment.to}} $ {{payment.amount}}</div>
+      </div>
       <!-- Drag-and-Drop Table -->
       <div class="table-wrapper">
     		<div class="itemsTable row">
@@ -25,11 +30,11 @@
             <div class="panel panel-info">
               <div class="panel-heading">
                 <h3 class="panel-title">{{getName(guestInfo)}}</h3>
+                <div ng-show="isPerson(guestInfo)"class="spent">
+                  <span class="amount">Spent: ${{getSpent(getId(guestInfo))}}
+                  </div>
               </div>
               <div class="panel-body">
-                <div ng-show="isPerson(guestInfo)"class="differential">
-                  <span class="amount">${{getOwed(guestInfo)}}
-                </div>
                 <h4 ng-show="isUninviteable(guestInfo)"ng-click='deleteGuest(getId(guestInfo))'> uninvite </h4></a>
                 <ul dnd-list="list"
                     dnd-drop="reassignItem(item, guestInfo)">
@@ -73,8 +78,8 @@
           <input type="number" ng-model="itemPrice" name="priceOfItem" id="addItem" placeholder="Enter Item Cost"  required>
         </span>
         <!-- add item button -->
-        <input value='Add item' type="submit" class="nodemailer button" 
-        ng-click="addItemFunc(itemName, itemPrice)" 
+        <input value='Add item' type="submit" class="nodemailer button"
+        ng-click="addItemFunc(itemName, itemPrice)"
         ng-disabled='!eventItemDetails.nameOfItem.$valid'/>
         </div>
 
