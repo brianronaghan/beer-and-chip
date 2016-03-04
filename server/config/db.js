@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize');
 
-module.exports = new Sequelize('BeerAndChip', 'root', '123', {
+module.exports = new Sequelize('BeerAndChip', 'root', '', {
   host: 'localhost',
   dialect: 'mysql',
   // port:1036,
