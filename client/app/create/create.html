@@ -26,7 +26,7 @@
     <div>
       <form novalidate class="event-form" name='createForm'>
         <label>Event Name:</label> 
-        <input type="text" ng-model="event.name" />
+        <input type="text" ng-model="event.name" name='nameOfEvent' required/>
         <br />
 
         <label>Event Date:</label> 
@@ -74,7 +74,7 @@
         <input type="button" ng-click="reset()" value="Reset" />
 
 
-        <input type="submit" ng-click="update(event, hold)" value="Submit" ng-disabled='!createForm.myInput.$valid || !createForm.myName.$valid'/>
+        <input type="submit" ng-click="update(event, hold)" value="Submit" ng-disabled='!createForm.nameOfEvent.$valid || (createForm.myName.$valid && !createForm.myInput.$valid)'/>
 
 
       </form>
