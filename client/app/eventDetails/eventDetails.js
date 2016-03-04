@@ -18,14 +18,6 @@ angular.module('eventDetails', ['eventList'])
     item.show = !(item.show);
   };
 
-  // // variable to see if valid input for item adition
-  // $scope.showAddItemButton = true;
-  // $scope.isItemValueValid = function(itemPrice) {
-  //   if(itemPrice === "" || typeof(itemPrice) === 'number') {
-  //     $scope.showAddItemButton = false;
-  //   }
-  // };
-
   // changes the price of an item
   $scope.changePriceOfItem = function(item, newPrice) {
     item.show = false;
