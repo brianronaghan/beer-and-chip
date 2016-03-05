@@ -1,5 +1,5 @@
 angular.module('eventDetails', ['eventList', 'D3Module'])
-.controller('eventDetailsController', ['d3Factory','$scope', '$http', 'requestFactory', '$cookies', '$routeParams', function(d3Factory, $scope, $http, requestFactory, $cookies, $routeParams) {
+.controller('eventDetailsController', ['d3Factory','$scope', '$http', 'requestFactory', '$routeParams', function(d3Factory, $scope, $http, requestFactory, $routeParams) {
 /** ADD ITEM AND ADD GUEST INPUT BOXES **/
 
   // Holds text input from add item and add guest input boxes
@@ -339,7 +339,7 @@ angular.module('eventDetails', ['eventList', 'D3Module'])
 
 }])
 
-.factory('requestFactory', function($http, $cookies) {
+.factory('requestFactory', function($http) {
   var getEvents = function(eventID) {
     return $http({
       method: 'GET',
