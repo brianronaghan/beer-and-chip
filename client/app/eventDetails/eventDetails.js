@@ -94,11 +94,12 @@ angular.module('eventDetails', ['eventList', 'D3Module'])
     }
     $scope.payments = payments;// console.log($scope.payments);
 
+    // this is for d3 visualization
     if(!$scope.graphInitialized) {
-      d3Factory.initializeGraph($scope.payments);
+      d3Factory.initializeGraph($scope.payments, $scope.models.guests);
       $scope.graphInitialized = true;
     } else {
-      d3Factory.updateGraph($scope.payments);
+      d3Factory.updateGraph($scope.payments, $scope.models.guests);
     }
   };
 

@@ -94,44 +94,50 @@ angular.module('D3Module', [])
 
   };
 
-  var initGraph = function(links) {
+  var initGraph = function(links, guests) {
     var w = 900;
     var h = 400;
-    var linkDistance=100;
+    var linkDistance=200;
+    var listOfGests = {};
+
+    var nameId = 0;
+    for(key in guests) {
+        var temp = key;
+        temp.trim();
+        var name = temp.split(" ");
+        name.pop();
+        name = name.reduce(function(comb, cur){return comb +' '+ cur;});
+        name.trim();
+        if(name !== 'STILL NEEDED:'){
+            listOfGests[name] = nameId++;
+        }
+    }
+
+    // block of code creates datasets for d3    states has each person with 0, 1, 2 
+    //                                            where 0=neutral 1= owes 2=recieves
+    var dataset = { nodes:[], edges:[], amount:[], states:{} };
+
+    for(key in listOfGests) {
+        dataset.nodes.push({name:key});
+        dataset.states[key.trim()] = 0;
+    }
+
+    links.forEach(function(item){        
+        var from = listOfGests[item.from.trim()];
+        var to = listOfGests[item.to.trim()];
+
+        dataset.edges.push({
+            source: from,
+            target: to
+        });
+
+        dataset.states[item.from.trim()] = 1;
+        dataset.states[item.to.trim()] = 2;
+
+        dataset.amount.push(Math.round(item.amount*100)/100);
+    });
 
     var colors = d3.scale.category10();
-
-    var dataset = {
-
-        nodes: [
-        {name: "Adam"},
-        {name: "Bob"},
-        {name: "Carrie"},
-        {name: "Donovan"},
-        {name: "Edward"},
-        {name: "Felicity"},
-        {name: "George"},
-        {name: "Hannah"},
-        {name: "Iris"},
-        {name: "Jerry"}
-        ],
-        edges: [
-        {source: 0, target: 1},
-        {source: 0, target: 2},
-        {source: 0, target: 3},
-        {source: 0, target: 4},
-        {source: 1, target: 5},
-        {source: 2, target: 5},
-        {source: 2, target: 5},
-        {source: 3, target: 4},
-        {source: 5, target: 8},
-        {source: 5, target: 9},
-        {source: 6, target: 7},
-        {source: 7, target: 8},
-        {source: 8, target: 9}
-        ]
-    };
-
      
     var svg = d3.select(".d3vis").append("svg").attr({"width":w,"height":h});
 
@@ -161,8 +167,8 @@ angular.module('D3Module', [])
       .enter()
       .append("circle")
       .attr({"r":15})
-      .style("fill",function(d,i){return colors(i);})
-      .call(force.drag)
+      .style("fill",function(d,i){return colors(dataset.states[d.name]);})
+      .call(force.drag);
 
 
     var nodelabels = svg.selectAll(".nodelabel") 
@@ -203,7 +209,7 @@ angular.module('D3Module', [])
     edgelabels.append('textPath')
         .attr('xlink:href',function(d,i) {return '#edgepath'+i})
         .style("pointer-events", "none")
-        .text(function(d,i){return 'label '+i});
+        .text(function(d,i){return '$' + dataset.amount[i]});
 
 
     svg.append('defs').append('marker')
@@ -243,7 +249,6 @@ angular.module('D3Module', [])
 
         edgelabels.attr('transform',function(d,i){
             if (d.target.x<d.source.x){
-                console.log('from getbbox',svg[0]);
                 bbox = this.getBBox();
                 rx = bbox.x+bbox.width/2;
                 ry = bbox.y+bbox.height/2;
@@ -259,10 +264,10 @@ angular.module('D3Module', [])
 
 
 
-  var updateGraph = function(links){
+  var updateGraph = function(links, guests){
     d3.select(".d3vis").selectAll('*').remove();
     // initializeGraph(links);
-    initGraph(links);
+    initGraph(links, guests);
   };
 
   return {
