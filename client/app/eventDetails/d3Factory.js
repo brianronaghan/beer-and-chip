@@ -96,7 +96,7 @@ angular.module('D3Module', [])
 
   var initGraph = function(links, guests) {
     var w = 900;
-    var h = 400;
+    var h = 600;
     var linkDistance=200;
     var listOfGests = {};
 
@@ -160,13 +160,14 @@ angular.module('D3Module', [])
       .attr("id",function(d,i) {return 'edge'+i})
       .attr('marker-end','url(#arrowhead)')
       .style("stroke","#ccc")
-      .style("pointer-events", "none");
+      .style("pointer-events", "none")
+      .style('stroke-width', 5);
     
     var nodes = svg.selectAll("circle")
       .data(dataset.nodes)
       .enter()
       .append("circle")
-      .attr({"r":15})
+      .attr({"r":25})
       .style("fill",function(d,i){return colors(dataset.states[d.name]);})
       .call(force.drag);
 
@@ -179,6 +180,7 @@ angular.module('D3Module', [])
               "y":function(d){return d.y;},
               "class":"nodelabel",
               "stroke":"black"})
+       .style('font-size', 20)
        .text(function(d){return d.name;});
 
     var edgepaths = svg.selectAll(".edgepath")
@@ -209,6 +211,7 @@ angular.module('D3Module', [])
     edgelabels.append('textPath')
         .attr('xlink:href',function(d,i) {return '#edgepath'+i})
         .style("pointer-events", "none")
+        .style("font-size", 20)
         .text(function(d,i){return '$' + dataset.amount[i]});
 
 
