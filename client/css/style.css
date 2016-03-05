@@ -1063,15 +1063,28 @@
 
 
 /* Banner for nav bar on non-landing pages */
-/*	#banner2 {
+	#banner2 {
 		background-image: url(../images/dark_tint.png), url(../images/navBackground.png);
 		background-position: center center;
-		background-size: cover;
+		background-size: contain;
 		color: #ffffff;
-		padding: 14em 0em 14em;
+		padding: 5em 0em 5em;
 		text-align: center;
-	}*/
-
+	}
+	#banner2 h2 {
+		color: #ffffff;
+		font-size: 4em;
+		line-height: 1em;
+		margin: 0 0 0.1em 0;
+		padding: 0;
+		}
+	#banner2 :last-child {
+		margin-bottom: 0;
+	}
+	#banner2 p {
+		font-size: 1.5em;
+		margin-bottom: 1.75em;
+	}
 
 
 /* Wrapper */
@@ -1320,4 +1333,12 @@ input[type="button"],
 		margin: 0 2px;
 		font-size: 0.6em;
 		padding: 0 2em;
+}
+
+.contributors {
+	text-align: center;
+	width: 80%;
+}
+.contributors th {
+	text-align: center;
 }
