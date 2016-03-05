@@ -52,17 +52,21 @@ module.exports = {
       guest.payments.forEach(function (payment){
         body += "<li>Pay <em>"+ payment.to +"</em>" + "<b>$" + payment.amount + "</b></li>";
       });
-    } else {
+    } else if (guest.dir === 'owed'){
       body += "<h5>You contributed MORE than the average of $" + event.totalCost/event.numGuests + "</h5>";
       body += "<h4>Time to settle up!</h4>";
       body += "<h5>Here's who will pay you (and how much): </h5>";
       guest.payments.forEach(function (payment){
         body += "<li><em>" + payment.from + "</em> will pay you <b>$" + payment.amount + "</b></li>";
       });
-      body += "</ul>";
-      body += "<h3>Thanks " + guest.name + "!</h3>";
-      callback(body);
+    } else {
+      body += "<h5>You contributed EXACTLY the average of $" + event.totalCost/event.numGuests + "</h5>";
+      body += "<h4>You're all settled up!</h4>";
+      body += "<h5>(congrats on being at the top of the bell curve!)</h5>";
     }
+    body += "</ul>";
+    body += "<h3>Thanks " + guest.name + "!</h3>";
+    callback(body);
   },
 
   parseEmails: function(eventID, callback) {
@@ -101,7 +105,7 @@ module.exports = {
         };
       }
       for (var key in guests) {
-        if(guests[key].name !== "STILL NEEDED:" && guests[key].payments.length>0) {
+        if(guests[key].name !== "STILL NEEDED:") {
           module.exports.sendMoneyEmail(event.id, event, guests[key], function(){
             sendCB(key);
           });
