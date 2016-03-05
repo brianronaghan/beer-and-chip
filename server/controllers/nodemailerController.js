@@ -1,26 +1,26 @@
 var nodemailer = require('../config/nodemailer');
-var GuestQuery = require('../queries/guestQueries');
+var EmailQuery = require('../queries/emailQueries');
+var EventQuery = require('../queries/eventQueries');
 
 module.exports = {
-  // Uses nodemailer to send out event details to guests
-  get: function(req, res) {
+  // uses nodemailer to send BILL
+  post: function(req, res) {
     var eventID = req.params.eventID;
-    var emails = '';
     var url = "http://localhost:3000/#/eventdetails/" + eventID;
-    
-    // Get and format all guest emails for nodemailer
-    GuestQuery.getAll(eventID, function(guests) {
-      for (var i = 0; i < guests.length; i++) {
-        emails = emails + guests[i].email + ' ,';
-      }
-      emails = emails.slice(0, emails.length - 2);
-      var mailOptions = nodemailer.createMailOptions(emails, url);
-      nodemailer.transporter.sendMail(mailOptions, function(err, info) {
-        if(err) {
-          return console.error(err);
-        }
-        console.log('Message send: ' + info.response);
-      })
-    })
-  } 
-}
+    EmailQuery.sendInvite('many', 'none',eventID, url, function (){
+      res.send();
+    });
+  },
+  settleUp: function (req, res) {
+    EventQuery.getByID(req.params.eventID, function(event){
+      EmailQuery.sendTabs(event, req.body, function() {console.log("done with sending tabs!");});
+    });
+  },
+  delete: function (req,res) {
+    console.log("delete");
+  },
+  put: function (req, res) {
+    // there's no functionality yet for updating... To come
+    console.log("send upd");
+  }
+};

@@ -25,7 +25,7 @@ angular.module('eventDetails', ['eventList', 'D3Module'])
         // get the guest's name and total spend
         var theName = $scope.getName(key);
         var spent = $scope.getSpent($scope.getId(key));
-        var person = {name: theName};
+        var person = {name: theName, id: $scope.getId(key)};
         // if the guest spent less than average, put her in the under
         if(spent < avg) {
           person.owes = avg-spent;
@@ -52,7 +52,11 @@ angular.module('eventDetails', ['eventList', 'D3Module'])
       // declare temp payment object, set to and from
       var payment = {};
       payment.from = under[underIn].name;
+      payment.fromId = under[underIn].id;
+
       payment.to = over[overIn].name;
+      payment.toId = over[overIn].id;
+
       // if the over person is owed more than (or exactly) what the under person owes
       if (over[overIn].owed > under[underIn].owes) {
         // make a payment from under to over for entire under owes
@@ -108,10 +112,15 @@ angular.module('eventDetails', ['eventList', 'D3Module'])
     $scope[field] = "";
   };
   //makes settleUp box appear
-  $scope.settleUp = function () {
+  $scope.showTab = function () {
     $scope.settling = !$scope.settling;
   };
-
+  $scope.settleUp = function () {
+    console.log("payments: ", $scope.payments)
+    requestFactory.sendTabs($routeParams.eventID, $scope.payments)
+      .then(function (res) {
+      });
+  };
   // adds a property on item used to decide to show value
   $scope.isSelected = function(item) {
     item.show = !(item.show);
@@ -313,12 +322,12 @@ angular.module('eventDetails', ['eventList', 'D3Module'])
     .then(function () {
       socket.emit('eventDetails change');
     });
-  }
+  };
 /** EMAIL **/
   // sends unique eventDetails url to all guests
-  $scope.email = function() {
+  $scope.emailInvites = function() {
     var eventID = $cookies.get("eventID");
-    requestFactory.sendEmails(eventID);
+    requestFactory.sendInvites(eventID);
   };
 
 /** INITIALIZE ON PAGE LOAD **/
@@ -340,13 +349,18 @@ angular.module('eventDetails', ['eventList', 'D3Module'])
       return res.data;
     });
   };
-
-  var sendEmails = function(eventID) {
+  var sendTabs = function(eventID, payments) {
     return $http({
-      method: 'GET',
-      url: '/api/email/' + eventID
+      method: 'POST',
+      url: 'api/email/settleUp/' + eventID,
+      data: payments
+    })
+    .then(function(res) {
+      return res.data;
     });
   };
+
+
 
   var updateItem = function(item, guestId) {
     return $http({
@@ -378,8 +392,6 @@ angular.module('eventDetails', ['eventList', 'D3Module'])
     .then(function(userName) {
       return userName;
     });
-
-
   };
 
   var deleteItem = function (itemId) {
@@ -391,7 +403,7 @@ angular.module('eventDetails', ['eventList', 'D3Module'])
 
   return {
     getEvents: getEvents,
-    sendEmails: sendEmails,
+    sendTabs: sendTabs,
     updateItem: updateItem,
     getUserDetails: getUserDetails,
     deleteItem: deleteItem,
