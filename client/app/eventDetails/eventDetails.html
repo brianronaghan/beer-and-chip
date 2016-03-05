@@ -9,8 +9,9 @@
     <header class="major">
       <h2>Event Details</h2>
     </header>
-    <div>D3 Data Debug: {{payments}} </div>
+    <!-- <div>D3 Data Debug: {{payments}} </div> -->
   	<div>
+      
   		<div>
   		  <h2>What: {{details.event.name}}</h2>
   		  <h3>Where: {{details.event.location}}</h3>
@@ -18,13 +19,13 @@
         <h3>Cost Per Person: $ {{average}}</h3>
         <h3>Created By: {{details.creatorName}}</h3>
   		</div>
+
       <div class="nodemailer button" ng-click="settleUp()" style="margin: 5px 0px">Settle Up!</div>
         <div class="settleInfo" ng-show="settling" style="margin: 10px 0px" >
           <li ng-repeat="payment in payments" style='line-height: 30px; font-size: 17px'> <b>{{payment.from}}</b> PAYS <b>{{payment.to}} </b> $ {{payment.amount}}</li>
+          <div class='d3vis' ng-model='payments'></div>
       </div>
-      <div>
-        Place holder for D3
-      </div>
+
       <!-- Drag-and-Drop Table -->
       <div class="table-wrapper">
     		<div class="itemsTable row">
@@ -98,7 +99,9 @@
         </span>
 
         <!--add guest button  -->
-        <input type="button" class="nodemailer button" value='Add guest' ng-click="addGuestFunc(guestName, guestEmail)" ng-disabled='!eventItemDetails.addGuest.$valid || !eventItemDetails.addEmail.$valid'>
+        <input type="submit" class="nodemailer button" value='Add guest' 
+        ng-click="addGuestFunc(guestName, guestEmail)" 
+        ng-disabled='!eventItemDetails.addGuest.$valid || !eventItemDetails.addEmail.$valid'/>
       </div>
 
       <br><br>
@@ -110,4 +113,24 @@
     </form>
       </div>
   </div>
+  <style>
+
+    path.link {
+      fill: none;
+      stroke: #666;
+      stroke-width: 1.5px;
+    }
+
+    circle {
+      fill: #ccc;
+      stroke: #fff;
+      stroke-width: 1.5px;
+    }
+
+    text {
+      fill: #000;
+      font: 10px sans-serif;
+      pointer-events: none;
+    }
+  </style>
 </section>

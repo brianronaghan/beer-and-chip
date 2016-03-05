@@ -13,7 +13,7 @@ angular.module('myApp', [
   });
   $routeProvider.when('/eventdetails/:eventID', {
     templateUrl: 'app/eventDetails/eventDetails.html',
-    controller: 'eventDetailsController'
+    controller: 'eventDetailsController',
   })
   $routeProvider.when('/signin',{
     templateUrl: 'app/auth/signin.html',

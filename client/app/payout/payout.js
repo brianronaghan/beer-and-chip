@@ -1,5 +1,6 @@
 angular.module('payouts', [])
-.controller('PayoutController', ['$scope', function ($scoope) {
+.controller('PayoutController', ['$scope', function ($scope) {
+  
   var testData = [
   {source: "A", target: "B", value: "4"},
   {source: "B", target: "F", value: "7"},
@@ -11,10 +12,11 @@ angular.module('payouts', [])
   {source: "H", target: "J", value: "9"},
   {source: "I", target: "I", value: "3"},
   {source: "J", target: "B", value: "2"}
-  ]
+  ];
+  console.log('from payouts', $scope.payments);
   initializeGraph(testData);
 }]);
-
+// console.log('from payouts', $scope.payments);
 // links should be an array of objects
 //  eg. {source: "John", target: "Mary", value: "3"}
 var initializeGraph = function(links) {
