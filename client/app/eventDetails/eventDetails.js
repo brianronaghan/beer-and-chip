@@ -302,7 +302,7 @@ angular.module('eventDetails', ['eventList'])
     .then(function () {
       socket.emit('eventDetails change');
     });
-  }
+  };
 /** EMAIL **/
   // sends unique eventDetails url to all guests
   $scope.emailInvites = function() {

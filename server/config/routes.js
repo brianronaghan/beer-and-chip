@@ -14,15 +14,20 @@ router.get('/events/:userID', eventsController.events.get);
 router.post('/events', eventsController.events.post);
 router.get('/eventDetails/:eventID', eventsController.eventDetails.get);
 router.delete('/events', eventsController.events.delete);
+// add call to EmailCancel in this controller
+
+
 // send initial invite to all guests
 router.post('/email/:eventID', nodemailerController.post);
-// send settleUp emails to all guests
+//send settleUp emails to all guests
 // router.put('/email/:eventID', nodemailerController.put);
 // // send event cancelled email to all guests
 // router.delete('/email/:eventID', nodemailerController.delete);
 
 router.get('/guests', guestsController.get);
 router.post('/guests', guestsController.post);
+// add call to emailInvite in this controller
+
 router.put('/guests', guestsController.put);
 router.delete('/guests/:guestID/:eventID', guestsController.delete);
 
