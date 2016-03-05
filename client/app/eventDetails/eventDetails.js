@@ -1,5 +1,5 @@
 angular.module('eventDetails', ['eventList', 'D3Module'])
-.controller('eventDetailsController', ['d3Factory','$scope', '$http', 'requestFactory', '$cookies', '$routeParams', function(d3Factory, $scope, $http, requestFactory, $cookies, $routeParams) {
+.controller('eventDetailsController', ['d3Factory','$scope', '$http', 'requestFactory', '$routeParams', function(d3Factory, $scope, $http, requestFactory, $routeParams) {
 /** ADD ITEM AND ADD GUEST INPUT BOXES **/
 
   // Holds text input from add item and add guest input boxes
@@ -139,7 +139,7 @@ angular.module('eventDetails', ['eventList', 'D3Module'])
   // sends a POST request to insert a new item
   $scope.addItemFunc = function(itemName, itemPrice){
     var newItem = {
-      EventId: $cookies.get('eventID'),
+      EventId: $routeParams.eventID,
       name: itemName, // this is coming from ng-model
       price: itemPrice
     };
@@ -158,7 +158,7 @@ angular.module('eventDetails', ['eventList', 'D3Module'])
   // sends a POST request to insert a new guest
   $scope.addGuestFunc = function(guestName, guestEmail){
     var newGuest = {
-      EventId: $cookies.get('eventID'),
+      EventId: $routeParams.eventID,
       name: guestName, //this is coming from ng-model
       email: guestEmail
     };
@@ -326,7 +326,7 @@ angular.module('eventDetails', ['eventList', 'D3Module'])
 /** EMAIL **/
   // sends unique eventDetails url to all guests
   $scope.emailInvites = function() {
-    var eventID = $cookies.get("eventID");
+    var eventID = $routeParams.eventID;
     requestFactory.sendInvites(eventID);
   };
 
@@ -339,7 +339,7 @@ angular.module('eventDetails', ['eventList', 'D3Module'])
 
 }])
 
-.factory('requestFactory', function($http, $cookies) {
+.factory('requestFactory', function($http) {
   var getEvents = function(eventID) {
     return $http({
       method: 'GET',
