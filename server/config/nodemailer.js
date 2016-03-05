@@ -1,6 +1,7 @@
 var nodemailer = require('nodemailer');
 
 exports.transporter = nodemailer.createTransport({
+    host: '162.243.218.81',
     service: 'Gmail',
     auth: {
       user: 'beerandchip@gmail.com',
