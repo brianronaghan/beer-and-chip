@@ -6,7 +6,7 @@ module.exports = {
   // uses nodemailer to send BILL
   post: function(req, res) {
     var eventID = req.params.eventID;
-    var url = "162.243.218.81:3000/#/eventdetails/" + eventID;
+    var url = "http://162.243.218.81:3000/#/eventdetails/" + eventID;
     EmailQuery.sendInvite('many', 'none',eventID, url, function (){
       res.send();
     });
