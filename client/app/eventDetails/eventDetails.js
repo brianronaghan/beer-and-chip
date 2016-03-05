@@ -139,7 +139,7 @@ angular.module('eventDetails', ['eventList', 'D3Module'])
   // sends a POST request to insert a new item
   $scope.addItemFunc = function(itemName, itemPrice){
     var newItem = {
-      EventId: $cookies.get('eventID'),
+      EventId: $routeParams.eventID,
       name: itemName, // this is coming from ng-model
       price: itemPrice
     };
