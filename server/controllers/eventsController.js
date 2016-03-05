@@ -31,7 +31,6 @@ module.exports = {
             ItemQuery.addAll(event.id, data.items, snID,function() {
               var url = "162.243.218.81:3000/#/eventdetails/" + event.id;
               // call send email
-              console.log(data.guests);
               EmailQuery.sendInvite('many', 'none',event.id, url, function (){
                 res.send();
               });
