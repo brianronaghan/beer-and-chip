@@ -117,7 +117,7 @@ module.exports = {
   },
   sendMoneyEmail: function (eventId, event, guest, callback) {
     UserQuery.getByUserId(event.UserId, function (creator) {
-      var url = "162.243.218.81:3000/#/eventdetails/" + eventId;
+      var url = "http://162.243.218.81:3000/#/eventdetails/" + eventId;
 
       var fromDisplay = "'";
       fromDisplay += creator.displayName;
