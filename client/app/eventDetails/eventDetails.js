@@ -1,5 +1,5 @@
-angular.module('eventDetails', ['eventList'])
-.controller('eventDetailsController', ['$scope', '$http', 'requestFactory', '$cookies', '$routeParams', function($scope, $http, requestFactory, $cookies, $routeParams) {
+angular.module('eventDetails', ['eventList', 'D3Module'])
+.controller('eventDetailsController', ['d3Factory','$scope', '$http', 'requestFactory', '$cookies', '$routeParams', function(d3Factory, $scope, $http, requestFactory, $cookies, $routeParams) {
 /** ADD ITEM AND ADD GUEST INPUT BOXES **/
 
   // Holds text input from add item and add guest input boxes
@@ -10,6 +10,8 @@ angular.module('eventDetails', ['eventList'])
   $scope.settling = false;
   $scope.payments = [];
   $scope.average;
+  $scope.graphInitialized = false;
+
   // calculates easiest way to settle the bill, called in initializeDetails
   calcPayments = function () {
     // for every guest
@@ -91,7 +93,15 @@ angular.module('eventDetails', ['eventList'])
       }
     }
     $scope.payments = payments;// console.log($scope.payments);
+
+    if(!$scope.graphInitialized) {
+      d3Factory.initializeGraph($scope.payments);
+      $scope.graphInitialized = true;
+    } else {
+      d3Factory.updateGraph($scope.payments);
+    }
   };
+
   // clear text in text field, takes a string as input
   $scope.resetField = function(field) {
     $scope[field] = "";
