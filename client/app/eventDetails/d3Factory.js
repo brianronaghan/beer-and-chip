@@ -134,7 +134,7 @@ angular.module('D3Module', [])
         dataset.states[item.from.trim()] = 1;
         dataset.states[item.to.trim()] = 2;
 
-        dataset.amount.push(Math.round(item.amount*100)/100);
+        dataset.amount.push(item.amount.toFixed(2));
     });
 
     var colors = d3.scale.category10();
