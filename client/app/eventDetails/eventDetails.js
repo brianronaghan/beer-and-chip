@@ -158,7 +158,7 @@ angular.module('eventDetails', ['eventList', 'D3Module'])
   // sends a POST request to insert a new guest
   $scope.addGuestFunc = function(guestName, guestEmail){
     var newGuest = {
-      EventId: $cookies.get('eventID'),
+      EventId: $routeParams.eventID,
       name: guestName, //this is coming from ng-model
       email: guestEmail
     };
@@ -326,7 +326,7 @@ angular.module('eventDetails', ['eventList', 'D3Module'])
 /** EMAIL **/
   // sends unique eventDetails url to all guests
   $scope.emailInvites = function() {
-    var eventID = $cookies.get("eventID");
+    var eventID = $routeParams.eventID;
     requestFactory.sendInvites(eventID);
   };
 
