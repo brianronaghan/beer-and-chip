@@ -37,7 +37,7 @@ module.exports = {
     .then(function (user){
       //set creatorname to that user's displayname
       creatorName = user.dataValues.displayName;
-      guests.push({name: creatorName, EventId: event.id});
+      guests.push({name: creatorName, email: user.dataValues.email,EventId: event.id});
       for (var i=0; i < guests.length; i++) {
       	guests[i].EventId = event.id;
       }

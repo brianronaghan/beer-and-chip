@@ -1,6 +1,7 @@
 var GuestQuery = require('../queries/guestQueries');
 var ItemQuery = require('../queries/itemQueries');
 var EventQuery = require('../queries/eventQueries');
+var EmailQuery = require('../queries/emailQueries');
 
 module.exports = {
   get: function(req, res) {
@@ -9,12 +10,16 @@ module.exports = {
       res.json(guests);
     });
   },
-
+  // add email call when a guest is invited
   post: function(req, res) {
     var guest = req.body;
+    console.log("guest ",guest);
+    var url = "http://localhost:3000/#/eventdetails/" + req.body.EventId;
     GuestQuery.addOne(guest, function(newGuest) {
       EventQuery.incOrDecGuestNum(req.body.EventId, 1, function() {
-        res.json(newGuest);
+        EmailQuery.sendInvite('one', guest, guest.EventId, url, function(){
+          res.json(newGuest);
+        });
       });
     });
   },
@@ -26,7 +31,9 @@ module.exports = {
       res.send();
     });
   },
-
+  // add email call when guest is uninvited
+    // email event creator
+    // email guest saying if you can make it just come back!
   delete: function(req, res) {
     var guestID = req.params.guestID;
     var eventID = req.params.eventID;
