@@ -1064,7 +1064,7 @@
 
 /* Banner for nav bar on non-landing pages */
 	#banner2 {
-		background-image: url(../images/dark_tint.png), url(../images/navBackground.png);
+		background-image: url(../images/dark_tint.png), url(../images/bokeh_car_lights_bg.jpg);
 		background-position: center center;
 		background-size: contain;
 		color: #ffffff;
