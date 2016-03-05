@@ -29,7 +29,8 @@ module.exports = {
           // ADD THE STILL NEEDED ID to these parameters:
           var snID = GuestQuery.findStillNeeded(event.id, function (snID) {
             ItemQuery.addAll(event.id, data.items, snID,function() {
-              var url = "http://162.243.218.81:3000/#/eventdetails/" + event.id;
+              var url = "http://www.google.com";
+              // var url = "http://162.243.218.81:3000/#/eventdetails/" + event.id;
               // call send email
               EmailQuery.sendInvite('many', 'none',event.id, url, function (){
                 res.send();
