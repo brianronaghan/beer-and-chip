@@ -44,6 +44,12 @@ module.exports = {
     body += "<h5>Hi " + guest.name + "!</h5>";
     body += "<h4>Time to settle up for:</h4>";
     body += "<a href='" + url + "'><h3>" + event.name + "!</h3></a>";
+    body += "<a href='http://www.google.com'><h3>google!</h3></a>";
+    body += "<a href='www.google.com'><h3>google!</h3></a>";
+    body += "<a href='162.243.218.81:3000/#/eventdetails/2'><h3>other form</h3></a>";
+    body += "<a href='http://162.243.218.81:3000/#/eventdetails/2'><h3>last form</h3></a>";
+
+
     if(guest.dir === 'owes') {
       body += "<h5>You contributed LESS than the average of $" + event.totalCost/event.numGuests + "</h5>";
       body += "<h4>Time to settle up!</h4>";
@@ -118,7 +124,6 @@ module.exports = {
   sendMoneyEmail: function (eventId, event, guest, callback) {
     UserQuery.getByUserId(event.UserId, function (creator) {
       var url = "http://162.243.218.81:3000/#/eventdetails/" + eventId;
-
       var fromDisplay = "'";
       fromDisplay += creator.displayName;
       fromDisplay += " via beerandchip' <beeranchip@gmail.com>";
