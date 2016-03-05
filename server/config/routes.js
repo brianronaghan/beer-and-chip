@@ -17,12 +17,17 @@ router.delete('/events', eventsController.events.delete);
 // add call to EmailCancel in this controller
 
 
-// send initial invite to all guests
+// send IMPORTANT UPDATE TO ALL GUESTS
 router.post('/email/:eventID', nodemailerController.post);
+
 //send settleUp emails to all guests
-// router.put('/email/:eventID', nodemailerController.put);
-// // send event cancelled email to all guests
-// router.delete('/email/:eventID', nodemailerController.delete);
+router.post('/email/settleUp/:eventID', nodemailerController.settleUp);
+
+// send important update to all GUESTS
+router.put('/email/:eventID', nodemailerController.put);
+
+// send event cancelled email to all guests
+router.delete('/email/:eventID', nodemailerController.delete);
 
 router.get('/guests', guestsController.get);
 router.post('/guests', guestsController.post);

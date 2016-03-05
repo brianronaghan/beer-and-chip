@@ -18,8 +18,9 @@
         <h3>Cost Per Person: $ {{average}}</h3>
         <h3>Created By: {{details.creatorName}}</h3>
   		</div>
-      <div class="nodemailer button" ng-click="settleUp()" style="margin: 5px 0px">Settle Up!</div>
+      <div class="nodemailer button" ng-click="showTab()" style="margin: 5px 0px">Show the Tab!</div>
         <div class="settleInfo" ng-show="settling" style="margin: 10px 0px" >
+          <div class="nodemailer button" ng-show="settling" ng-click="settleUp()" style="margin: 5px 0px">Send Email to tell people what to pay</div>
           <li ng-repeat="payment in payments" style='line-height: 30px; font-size: 17px'> <b>{{payment.from}}</b> PAYS <b>{{payment.to}} </b> $ {{payment.amount}}</li>
       </div>
       <div>
@@ -104,9 +105,9 @@
       <br><br>
 
       <!-- Send email button -->
-      <button type="button" class="nodemailer button" ng-click="emailInvites()">
+      <!-- <button type="button" class="nodemailer button" ng-click="emailInvites()">
         Send Event Invitation to Guests!
-      </button>
+      </button> -->
     </form>
       </div>
   </div>

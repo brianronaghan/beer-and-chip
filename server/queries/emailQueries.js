@@ -39,8 +39,30 @@ module.exports = {
     });
   },
 
-  createSettleUpBody: function (event, callback) {
-    console.log("hi");
+  createSettleUpBody: function (event, guest, url, callback) {
+    var body = "";
+    body += "<h5>Hi " + guest.name + "!</h5>";
+    body += "<h4>Time to settle up for:</h4>";
+    body += "<a href='" + url + "'><h3>" + event.name + "!</h3></a>";
+    if(guest.dir === 'owes') {
+      body += "<h5>You contributed LESS than the average of $" + event.totalCost/event.numGuests + "</h5>";
+      body += "<h4>Time to settle up!</h4>";
+      body += "<h5>Here's who to pay (and how much): </h5>";
+      body += "<ul>";
+      guest.payments.forEach(function (payment){
+        body += "<li>Pay <em>"+ payment.to +"</em>" + "<b>$" + payment.amount + "</b></li>";
+      });
+    } else {
+      body += "<h5>You contributed MORE than the average of $" + event.totalCost/event.numGuests + "</h5>";
+      body += "<h4>Time to settle up!</h4>";
+      body += "<h5>Here's who will pay you (and how much): </h5>";
+      guest.payments.forEach(function (payment){
+        body += "<li><em>" + payment.from + "</em> will pay you <b>$" + payment.amount + "</b></li>";
+      });
+      body += "</ul>";
+      body += "<h3>Thanks " + guest.name + "!</h3>";
+      callback(body);
+    }
   },
 
   parseEmails: function(eventID, callback) {
@@ -53,7 +75,68 @@ module.exports = {
       callback(emails);
     });
   },
-//guest  { EventId: '2', name: 'jack', email: 'j@j' }
+  sendTabs: function (event, payments, callback) {
+    // get all guests
+    GuestQuery.getAll(event.id,function (guestResults) {
+      var guests = {};
+      guestResults.forEach(function (result) {
+        guests[result.dataValues.id] = result.dataValues;
+      });
+      // iterate through payments
+        // push payments to both TO and FROM guests
+        //(set each guest as owed or owes)
+      payments.forEach(function(payment){
+        guests[payment.fromId].dir = 'owes';
+        guests[payment.fromId].payments = guests[payment.fromId].payments || [];
+        guests[payment.fromId].payments.push(payment);
+        guests[payment.toId].dir = 'owed';
+        guests[payment.toId].payments = guests[payment.toId].payments || [];
+        guests[payment.toId].payments.push(payment);
+      });
+
+      function sendCB(key) {
+        return function(key){
+          console.log("run: ", key);
+          module.exports.sendMoneyEmail(event.id, event, guests[key]);
+        };
+      }
+      for (var key in guests) {
+        if(guests[key].name !== "STILL NEEDED:" && guests[key].payments.length>0) {
+          module.exports.sendMoneyEmail(event.id, event, guests[key], function(){
+            sendCB(key);
+          });
+        }
+      }
+    });
+
+
+  },
+  sendMoneyEmail: function (eventId, event, guest, callback) {
+    UserQuery.getByUserId(event.UserId, function (creator) {
+      var url = "http://localhost:3000/#/eventdetails/" + eventId;
+
+      var fromDisplay = "'";
+      fromDisplay += creator.displayName;
+      fromDisplay += " via beerandchip' <beeranchip@gmail.com>";
+      // create the subjectLine
+      var subjectLine = "Payment info for " + event.name;
+      // create the emailBody
+      var crea = creator.displayName.split(" ")[0];
+      // A -IF mode === 'many'
+      module.exports.createSettleUpBody(event, guest, url, function (emailBody){
+        // Get and format all guest emails for nodemailer
+        var mailOptions = nodemailer.createMailOptions(fromDisplay, subjectLine, guest.email, emailBody);
+        nodemailer.transporter.sendMail(mailOptions, function(err, info) {
+            if(err) {
+              return console.log(err);
+            }
+            console.log('sendMON ' + info.response);
+          }); // close send mail
+        });// close parseemails
+      });
+      callback();
+    },
+  //guest  { EventId: '2', name: 'jack', email: 'j@j' }
   sendInvite: function (mode, guest, eventID, url, callback) {
     // mode is a string, if it's 'one, we're sending an individual invite
     // if 'many', we're sending to all guests
@@ -107,76 +190,3 @@ module.exports = {
     });
   }
 };
-
-
-  // // add one guest
-  // addOne: function(guest, callback) {
-  //   Guest
-	//     .create(guest)
-	//     .then(function(newGuest) {
-	//     	callback(newGuest);
-	//     });
-  // },
-  //
-  // // add multiple guests to one event (changed to take in the whole event so we can access the creator ID)
-  // addAll: function(event, guests, callback) {
-  //   // Add dummy guest to hold all unassigned items
-  //   guests.unshift({name: "STILL NEEDED:", EventId: event.id});
-  //   // automatically create a guest entry for the event creator
-  //   var creatorName = "";
-  //   // find the user that created the event
-  //   User.findOne({
-  //     where: {id:event.UserId}
-  //   })
-  //   .then(function (user){
-  //     //set creatorname to that user's displayname
-  //     creatorName = user.dataValues.displayName;
-  //     guests.push({name: creatorName, EventId: event.id});
-  //     for (var i=0; i < guests.length; i++) {
-  //     	guests[i].EventId = event.id;
-  //     }
-  //     // update number of guests on event
-  //     EventQuery.updateNumberOfGuests(event.id, guests.length-1,function () {
-  //       Guest
-  //         .bulkCreate(guests)
-  //         .then(function(newGuests) {
-  //           callback(newGuests);
-  //         });
-  //     });
-  //   });
-  // },
-  //
-  // // update attributes of one guest
-  // updateOne: function(guestID, newAttrs, callback) {
-  //   Guest
-  //     .update(newAttrs, {
-  //       where: {id: guestID}
-  //     })
-  //     .then(function() {
-  //       callback();
-  //     })
-  // },
-  //
-  // // delete one guest
-  // deleteOne: function(guestID, callback) {
-  //   Guest
-  //     .destroy({
-  //       where: {id: guestID}
-  //     })
-  //     .then(function() {
-  //       callback();
-  //     });
-  // },
-  //
-  // // find the STILL NEEDED ID for any given eventID
-  // findStillNeeded: function (eventID, callback) {
-  //   Guest
-	// 		.find({
-	// 			where: {
-	// 				name: "STILL NEEDED:",
-	// 				EventId: eventID
-	// 			}
-	// 		}).then(function (guest) {
-  //       callback(guest.dataValues.id);
-  //     });
-  // }
