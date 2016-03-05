@@ -13,8 +13,7 @@ module.exports = {
   // add email call when a guest is invited
   post: function(req, res) {
     var guest = req.body;
-    console.log("guest ",guest);
-    var url = "http://localhost:3000/#/eventdetails/" + req.body.EventId;
+    var url = "162.243.218.81:3000/#/eventdetails/" + req.body.EventId;
     GuestQuery.addOne(guest, function(newGuest) {
       EventQuery.incOrDecGuestNum(req.body.EventId, 1, function() {
         EmailQuery.sendInvite('one', guest, guest.EventId, url, function(){
