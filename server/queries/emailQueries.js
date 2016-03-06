@@ -21,8 +21,6 @@ module.exports = {
     }
     body += "<h4>" + creator + " has invited you to : </h4>";
     body += "<a href='" + url + "'><h3>" + event.name + "!</h3></a>";
-    body += "<h3> GO TO THIS URL:</h1>";
-    body += "<h1>" + url + "</h1>";
     if(event.date !== null) {
       body += "<p>When: <b>" + event.date + "</b></p>";
     }
@@ -45,8 +43,12 @@ module.exports = {
     var body = "";
     body += "<h5>Hi " + guest.name + "!</h5>";
     body += "<h4>Time to settle up for:</h4>";
-    body += "<h3> GO TO THIS URL:</h1>";
-    body += "<h1>" + url + "</h1>";
+    body += "<a href='" + url + "'><h3>" + event.name + "!</h3></a>";
+    body += "<p><a href='http://www.google.com'><h3>google! with http</h3></a></p>";
+    body += "<a href='www.google.com'><h3>google! no http</h3></a>";
+    body += "<a href='162.243.218.81:3000/#/eventdetails/2'>link no http<h3>other form</h3></a>";
+    body += "<a href='http://162.243.218.81:3000/#/eventdetails/2'>link htt<h3>last form</h3></a>";
+
 
     if(guest.dir === 'owes') {
       body += "<h5>You contributed LESS than the average of $" + event.totalCost/event.numGuests + "</h5>";
