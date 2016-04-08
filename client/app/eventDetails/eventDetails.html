@@ -35,7 +35,7 @@
             <div class="panel panel-info">
               <div class="panel-heading">
                 <h3 class="panel-title">{{getName(guestInfo)}}
-                <div class='button special small xsmall' style="margin: 5px 0px" ng-show="isUninviteable(guestInfo)" ng-click='deleteGuest(getId(guestInfo))'> can't go </div></h3>
+                <div class='button special small xsmall' style="margin: 5px 10px" ng-show="isUninviteable(guestInfo)" ng-click='deleteGuest(getId(guestInfo))'> can't go </div></h3>
                 <div ng-show="isPerson(guestInfo)"class="spent">
                   <p class="amount" style='background: #CEE3F6; padding: 3px'>Spent: ${{getSpent(getId(guestInfo))}} </p>
                 </div>
